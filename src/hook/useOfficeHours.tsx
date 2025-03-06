@@ -25,7 +25,7 @@ export const useOfficeHours = () => {
                     return;
                 }
 
-                const response = await fetch("@/data/checkcong.csv");
+                const response = await fetch("/checkcong.csv");
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
