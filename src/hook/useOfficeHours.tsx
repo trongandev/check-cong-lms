@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
 import { OfficeHour } from "@/types/type";
+
+interface ParseResult {
+    data: OfficeHour[];
+    errors: Papa.ParseError[];
+    meta: Papa.ParseMeta;
+}
+
 export const useOfficeHours = () => {
     const [data, setData] = useState<OfficeHour[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -12,30 +19,37 @@ export const useOfficeHours = () => {
                 // Kiểm tra cache trong localStorage
                 const cachedData = localStorage.getItem("officeHoursData");
                 if (cachedData) {
-                    setData(JSON.parse(cachedData));
+                    const parsed = JSON.parse(cachedData) as OfficeHour[];
+                    setData(parsed);
                     setIsLoading(false);
                     return;
                 }
 
                 const response = await fetch("src/data/checkcong.csv");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const csvText = await response.text();
 
-                Papa.parse(csvText, {
+                Papa.parse<OfficeHour>(csvText, {
                     header: true,
-                    complete: (results) => {
-                        const parsedData = results.data as OfficeHour[];
-                        // Lưu vào localStorage
+                    skipEmptyLines: true,
+                    complete: (results: ParseResult) => {
+                        if (results.errors.length > 0) {
+                            console.warn("CSV parsing warnings:", results.errors);
+                        }
+                        const parsedData = results.data;
                         localStorage.setItem("officeHoursData", JSON.stringify(parsedData));
                         setData(parsedData);
                         setIsLoading(false);
                     },
-                    error: (error) => {
-                        setError(error.message);
-                        setIsLoading(false);
+                    transform: (value: string) => {
+                        return value.trim(); // Clean up whitespace
                     },
                 });
             } catch (err) {
-                setError(err instanceof Error ? err.message : "An error occurred");
+                const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
+                setError(errorMessage);
                 setIsLoading(false);
             }
         };
@@ -43,5 +57,5 @@ export const useOfficeHours = () => {
         fetchData();
     }, []);
 
-    return { data, isLoading, error };
+    return { data, isLoading, error } as const;
 };

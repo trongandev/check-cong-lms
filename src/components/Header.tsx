@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "/logo.svg";
 import { Calendar, Moon, Sun } from "lucide-react";
 export default function Header() {
