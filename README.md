@@ -33,7 +33,7 @@ Hệ thống quản lý chấm công trực quan, dễ dàng theo dõi và quả
 
 ```bash
 # Clone repository
-git clone https://github.com/your-username/check-cong-lms.git
+git clone https://github.com/angutboiz/check-cong-lms.git
 
 # Di chuyển vào thư mục
 cd check-cong-lms
