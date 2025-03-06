@@ -25,7 +25,7 @@ export default function Header() {
     };
 
     return (
-        <div className="dark:bg-slate-800 dark:text-white w-full h-13 shadow-md border-b border-b-white/10  flex items-center justify-center">
+        <div className="dark:bg-slate-800 dark:text-white w-full h-13 shadow-md border-b border-b-white/10  flex items-center justify-center px-5 md:px-0">
             <div className="w-full md:w-[800px] lg:w-[1000px] xl:w-[1200px] flex justify-between items-center">
                 <a href="/">
                     <img src={logo} alt="" className="w-20 h-10" />

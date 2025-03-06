@@ -186,10 +186,16 @@ export default function MainContent() {
                 <div className="w-8 h-8 border-x-2 border-x-gray-500 rounded-full animate-spin"></div>
             </div>
         );
-    if (error) return <div>Error: {error}</div>;
+    if (error)
+        return (
+            <div>
+                <h1 className="text-red-500 text-md">Lỗi do sử dụng safari, hãy dùng trình duyệt khác</h1>
+                <p>Thông tin lỗi: {error}</p>
+            </div>
+        );
     return (
         <div className="h-full flex-1 ">
-            <div className="flex items-center justify-between py-4 gap-5">
+            <div className="flex items-center justify-between py-4 gap-2 md:gap-5 flex-wrap ">
                 <div className="bg-white border-purple-200 shadow-sm dark:bg-gray-700  rounded-md flex-1 p-5 border dark:border-white/10 text-purple-800 dark:text-purple-300">
                     <p className="text-sm">Tổng số</p>
                     <h1 className="text-3xl text-right font-bold ">{table.getFilteredRowModel().rows.length}</h1>
