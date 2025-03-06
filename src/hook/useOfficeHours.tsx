@@ -39,7 +39,11 @@ export const useOfficeHours = () => {
                             console.warn("CSV parsing warnings:", results.errors);
                         }
                         const parsedData = results.data;
-                        localStorage.setItem("officeHoursData", JSON.stringify(parsedData));
+                        try {
+                            localStorage.setItem("officeHoursData", JSON.stringify(parsedData));
+                        } catch (e) {
+                            console.warn("Failed to save to localStorage:", e);
+                        }
                         setData(parsedData);
                         setIsLoading(false);
                     },
