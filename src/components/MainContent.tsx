@@ -180,7 +180,12 @@ export default function MainContent() {
     // Lấy số lượng checked và unchecked
     const { checked, unchecked } = getStatusCounts();
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading)
+        return (
+            <div className="h-screen flex items-center justify-center">
+                <div className="w-8 h-8 border-x-2 border-x-gray-500 rounded-full animate-spin"></div>
+            </div>
+        );
     if (error) return <div>Error: {error}</div>;
     return (
         <div className="h-full flex-1 ">
