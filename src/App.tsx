@@ -1,13 +1,13 @@
 import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import MainContent from "./components/MainContent";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { CloudDownload } from "lucide-react";
+import { Outlet } from "react-router-dom";
+// import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+// import { Button } from "@/components/ui/button";
+// import { useState } from "react";
+// import { CloudDownload } from "lucide-react";
 function App() {
-    const [open, setOpen] = useState(true);
+    // const [open, setOpen] = useState(true);
     // const [isShowNoti, setIsShowNoti] = useState(() => {
     //     const isShow = localStorage.getItem("isShowNoti");
     //     return isShow ? JSON.parse(isShow) : true;
@@ -17,14 +17,14 @@ function App() {
     //     setIsShowNoti(!value);
     //     localStorage.setItem("isShowNoti", JSON.stringify(!value));
     // };
-    const handleClearCache = () => {
-        localStorage.removeItem("officeHoursData");
-        window.location.reload();
-    };
+    // const handleClearCache = () => {
+    //     localStorage.removeItem("officeHoursData");
+    //     window.location.reload();
+    // };
     return (
         <div>
             <Header />
-            <Dialog defaultOpen={open} open={open} onOpenChange={setOpen}>
+            {/* <Dialog defaultOpen={open} open={open} onOpenChange={setOpen}>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle>Thông báo</DialogTitle>
@@ -41,20 +41,20 @@ function App() {
                         <div className="grid grid-cols-4 items-center gap-4"></div>
                     </div>
                     <DialogFooter className="flex-1 w-full flex justify-between items-center">
-                        {/* <div className="flex items-center gap-2 w-full">
+                        <div className="flex items-center gap-2 w-full">
                             <input type="checkbox" id="not-show" className="cursor-pointer" checked={!isShowNoti} onChange={(e) => handleShowNoti(e.target.checked)} />
                             <label htmlFor="not-show" className="cursor-pointer">
                                 Không hiện lại
                             </label>
-                        </div> */}
+                        </div>
                         <Button type="submit" onClick={() => setOpen(false)}>
                             Đã rõ
                         </Button>
                     </DialogFooter>
                 </DialogContent>
-            </Dialog>
+            </Dialog> */}
             <div className="min-h-[90vh]  px-5 py-3 dark:bg-gray-800/90">
-                <MainContent />
+                <Outlet />
             </div>
             <Footer />
         </div>

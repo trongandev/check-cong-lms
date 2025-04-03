@@ -8,29 +8,27 @@ interface ParseResult {
     meta: Papa.ParseMeta;
 }
 
-export const useOfficeHours = () => {
+export const useOfficeHours = (file_name: string, is_save: boolean) => {
     const [data, setData] = useState<OfficeHour[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
     useEffect(() => {
         const fetchData = async () => {
             try {
                 // Kiểm tra cache trong localStorage
-                const cachedData = localStorage.getItem("officeHoursData");
-                if (cachedData) {
+                const cachedData = localStorage.getItem(file_name);
+                if (cachedData && is_save) {
                     const parsed = JSON.parse(cachedData) as OfficeHour[];
                     setData(parsed);
                     setIsLoading(false);
                     return;
                 }
 
-                const response = await fetch("/check-cong-t3.csv");
+                const response = await fetch(`/${file_name}.csv`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const csvText = await response.text();
-
                 Papa.parse<OfficeHour>(csvText, {
                     header: true,
                     skipEmptyLines: true,
@@ -39,10 +37,12 @@ export const useOfficeHours = () => {
                             console.warn("CSV parsing warnings:", results.errors);
                         }
                         const parsedData = results.data;
-                        try {
-                            localStorage.setItem("officeHoursData", JSON.stringify(parsedData));
-                        } catch (e) {
-                            console.warn("Failed to save to localStorage:", e);
+                        if (is_save) {
+                            try {
+                                localStorage.setItem(file_name, JSON.stringify(parsedData));
+                            } catch (e) {
+                                console.warn("Failed to save to localStorage:", e);
+                            }
                         }
                         setData(parsedData);
                         setIsLoading(false);

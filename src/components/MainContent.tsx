@@ -17,7 +17,6 @@ import { ArrowUpDown, ChevronDown, ChevronLeft, ChevronRight } from "lucide-reac
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useOfficeHours } from "@/hook/useOfficeHours";
 import { OfficeHour } from "@/types/type";
 import { format, parse } from "date-fns";
 
@@ -135,8 +134,7 @@ const columns: ColumnDef<OfficeHour>[] = [
     },
 ];
 
-export default function MainContent() {
-    const { data, isLoading, error } = useOfficeHours();
+export default function MainContent({ data, isLoading, error }: { data: OfficeHour[]; isLoading: boolean; error: string | null }) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});

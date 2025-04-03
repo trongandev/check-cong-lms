@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import logo from "/logo.svg";
 import { Calendar, CloudDownload, Moon, Sun } from "lucide-react";
 import { Button } from "./ui/button";
+import { useLocation } from "react-router-dom";
 export default function Header() {
     const [isDark, setIsDark] = useState(() => {
         const savedTheme = localStorage.getItem("dark");
         return savedTheme ? JSON.parse(savedTheme) : false;
     });
+
+    const pathname = useLocation().pathname;
 
     useEffect(() => {
         // Lưu trạng thái theme vào localStorage
@@ -25,10 +28,10 @@ export default function Header() {
         setIsDark(!isDark);
     };
 
-    const handleClearCache = () => {
-        localStorage.removeItem("officeHoursData");
-        window.location.reload();
-    };
+    // const handleClearCache = () => {
+    //     localStorage.removeItem("thang3");
+    //     window.location.reload();
+    // };
 
     return (
         <div className="dark:bg-slate-800 bg-white dark:text-white w-full h-13 shadow-md border-b border-gray-200 dark:border-b-white/10  flex items-center justify-center px-5 md:px-0">
@@ -36,18 +39,21 @@ export default function Header() {
                 <a href="/">
                     <img src={logo} alt="" className="w-20 h-10" />
                 </a>
-                <div className="flex items-center gap-3">
-                    <a href="/" className="flex items-center gap-1">
+                <div className="flex items-center gap-5">
+                    <a href="/" className={`flex items-center gap-1 ${pathname === "/" ? "text-blue-500 font-bold" : ""}`}>
+                        <Calendar size={18} /> Công tháng 3
+                    </a>
+                    <a href="/thang2" className={`flex items-center gap-1 ${pathname === "/thang2" ? "text-blue-500 font-bold" : ""}`}>
                         <Calendar size={18} /> Công tháng 2
                     </a>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="">
+                    {/* <div className="">
                         <Button onClick={handleClearCache}>
                             <CloudDownload />
                             Cập nhật dữ liệu mới
                         </Button>
-                    </div>
+                    </div> */}
                     <div className="flex items-center gap-1">
                         <button onClick={toggleTheme} className="p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 rounded-full">
                             {isDark ? <Sun size={20} /> : <Moon size={20} />}
