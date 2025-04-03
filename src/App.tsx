@@ -2,23 +2,21 @@ import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import MainContent from "./components/MainContent";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { CloudDownload } from "lucide-react";
 function App() {
     const [open, setOpen] = useState(true);
-    const [isShowNoti, setIsShowNoti] = useState(() => {
-        const isShow = localStorage.getItem("isShowNoti");
-        return isShow ? JSON.parse(isShow) : true;
-    });
+    // const [isShowNoti, setIsShowNoti] = useState(() => {
+    //     const isShow = localStorage.getItem("isShowNoti");
+    //     return isShow ? JSON.parse(isShow) : true;
+    // });
 
-    console.log(isShowNoti);
-
-    const handleShowNoti = (value: boolean) => {
-        setIsShowNoti(!value);
-        localStorage.setItem("isShowNoti", JSON.stringify(!value));
-    };
+    // const handleShowNoti = (value: boolean) => {
+    //     setIsShowNoti(!value);
+    //     localStorage.setItem("isShowNoti", JSON.stringify(!value));
+    // };
     const handleClearCache = () => {
         localStorage.removeItem("officeHoursData");
         window.location.reload();
