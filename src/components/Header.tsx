@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import logo from "/logo.svg";
-import { Calendar, CloudDownload, Moon, Sun } from "lucide-react";
-import { Button } from "./ui/button";
+import { Calendar, Moon, Sun } from "lucide-react";
 import { useLocation } from "react-router-dom";
 export default function Header() {
     const [isDark, setIsDark] = useState(() => {
