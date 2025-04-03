@@ -177,6 +177,15 @@ export default function MainContent() {
         );
     };
 
+    const NOTE = {
+        OFFICE_HOURS: "Công trực",
+        TRIAL: "Trực 1 tiếng hoặc online",
+        FIXED: "3 tiếng trực offline",
+        MAKEUP: "Dạy bù",
+        SUPPLY: "Dạy thay",
+        CLASS: "Lớp dạy",
+    };
+
     // Lấy số lượng checked và unchecked
     const { checked, unchecked } = getStatusCounts();
 
@@ -194,7 +203,7 @@ export default function MainContent() {
             </div>
         );
     return (
-        <div className="h-full flex-1 ">
+        <div className="h-full flex-1">
             <div className="flex items-center justify-between py-4 gap-2 md:gap-5 flex-wrap ">
                 <div className="bg-white border-purple-200 shadow-sm dark:bg-gray-700  rounded-md flex-1 p-5 border dark:border-white/10 text-purple-800 dark:text-purple-300">
                     <p className="text-sm">Tổng số</p>
@@ -204,12 +213,12 @@ export default function MainContent() {
                     <p className="text-sm">Đã check</p>
                     <h1 className="text-3xl text-right font-bold">{checked}</h1>
                 </div>
-                <div className="bg-white border-red-200 shadow-sm dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-red-800 dark:text-red-300">
+                <div className=" border-red-200 shadow-sm dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-red-800 dark:text-red-300">
                     <p className="text-sm">Chưa check</p>
                     <h1 className="text-3xl text-right font-bold">{unchecked}</h1>
                 </div>
             </div>
-            <div className="w-full">
+            <div className="w-full ">
                 <div className="flex items-center py-4 gap-3 flex-wrap">
                     <div className="flex items-center gap-2 md:flex-row flex-col">
                         <Input
@@ -307,6 +316,17 @@ export default function MainContent() {
                             <ChevronRight />
                         </Button>
                     </div>
+                </div>
+            </div>
+            <div className="space-y-2 ">
+                <h2 className="font-medium text-gray-500 dark:text-white/70">Ghi chú</h2>
+                <div className="bg-gray-100 dark:bg-slate-800/50 border border-white/10 p-4 rounded-lg space-y-3 text-gray-500 dark:text-white">
+                    {Object.entries(NOTE).map(([key, value]) => (
+                        <div key={key} className="flex items-center gap-2">
+                            <kbd className="px-2 py-1 bg-white dark:bg-gray-500/50 rounded shadow text-sm">{key}</kbd>
+                            <span className="">{value}</span>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

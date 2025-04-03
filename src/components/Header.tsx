@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import logo from "/logo.svg";
-import { Calendar, Moon, Sun } from "lucide-react";
+import { Calendar, CloudDownload, Moon, Sun } from "lucide-react";
+import { Button } from "./ui/button";
 export default function Header() {
     const [isDark, setIsDark] = useState(() => {
         const savedTheme = localStorage.getItem("dark");
@@ -24,8 +25,13 @@ export default function Header() {
         setIsDark(!isDark);
     };
 
+    const handleClearCache = () => {
+        localStorage.removeItem("officeHoursData");
+        window.location.reload();
+    };
+
     return (
-        <div className="dark:bg-slate-800 dark:text-white w-full h-13 shadow-md border-b border-b-white/10  flex items-center justify-center px-5 md:px-0">
+        <div className="dark:bg-slate-800 bg-white dark:text-white w-full h-13 shadow-md border-b border-gray-200 dark:border-b-white/10  flex items-center justify-center px-5 md:px-0">
             <div className="w-full md:w-[800px] lg:w-[1000px] xl:w-[1200px] flex justify-between items-center">
                 <a href="/">
                     <img src={logo} alt="" className="w-20 h-10" />
@@ -36,9 +42,15 @@ export default function Header() {
                     </a>
                 </div>
                 <div className="flex items-center gap-3">
+                    <div className="">
+                        <Button onClick={handleClearCache}>
+                            <CloudDownload />
+                            Cập nhật dữ liệu mới
+                        </Button>
+                    </div>
                     <div className="flex items-center gap-1">
-                        <button onClick={toggleTheme} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-700 rounded-full">
-                            {isDark ? <Sun size={20} className="cursor-pointer" /> : <Moon size={20} className="cursor-pointer" />}
+                        <button onClick={toggleTheme} className="p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 rounded-full">
+                            {isDark ? <Sun size={20} /> : <Moon size={20} />}
                         </button>
                     </div>
                 </div>
