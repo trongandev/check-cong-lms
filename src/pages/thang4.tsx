@@ -1,8 +1,8 @@
-import MainContent from "@/components/MainContent";
+import MainContentFull from "@/components/MainContentFull";
 import { useOfficeHours } from "@/hook/useOfficeHours";
 
 export default function Thang4() {
     const { data, isLoading, error } = useOfficeHours("t4-2025", true);
 
-    return MainContent({ data, isLoading, error });
+    return MainContentFull({ data, isLoading, error });
 }
