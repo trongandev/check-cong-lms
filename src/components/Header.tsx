@@ -40,6 +40,9 @@ export default function Header() {
                 </a>
                 <div className="flex items-center gap-5">
                     <a href="/" className={`flex items-center gap-1 ${pathname === "/" ? "text-blue-500 font-bold" : ""}`}>
+                        <Calendar size={18} /> Công tháng 5
+                    </a>
+                    {/* <a href="/thang4" className={`flex items-center gap-1 ${pathname === "/thang4" ? "text-blue-500 font-bold" : ""}`}>
                         <Calendar size={18} /> Công tháng 4
                     </a>
                     <a href="/thang3" className={`flex items-center gap-1 ${pathname === "/thang3" ? "text-blue-500 font-bold" : ""}`}>
@@ -47,7 +50,7 @@ export default function Header() {
                     </a>
                     <a href="/thang2" className={`flex items-center gap-1 ${pathname === "/thang2" ? "text-blue-500 font-bold" : ""}`}>
                         <Calendar size={18} /> Công tháng 2
-                    </a>
+                    </a> */}
                 </div>
                 <div className="flex items-center gap-3">
                     {/* <div className="">
