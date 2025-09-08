@@ -1,31 +1,31 @@
-import { useEffect, useState } from "react";
-import logo from "/logo.svg";
-import { Calendar, Moon, Sun } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react"
+import logo from "/logo.svg"
+import { Calendar, Moon, Sun } from "lucide-react"
+import { useLocation } from "react-router-dom"
 export default function Header() {
     const [isDark, setIsDark] = useState(() => {
-        const savedTheme = localStorage.getItem("dark");
-        return savedTheme ? JSON.parse(savedTheme) : false;
-    });
+        const savedTheme = localStorage.getItem("dark")
+        return savedTheme ? JSON.parse(savedTheme) : false
+    })
 
-    const pathname = useLocation().pathname;
+    const pathname = useLocation().pathname
 
     useEffect(() => {
         // Lưu trạng thái theme vào localStorage
-        localStorage.setItem("dark", JSON.stringify(isDark));
+        localStorage.setItem("dark", JSON.stringify(isDark))
 
         // Cập nhật class dark cho root element
-        const root = document.documentElement;
+        const root = document.documentElement
         if (isDark) {
-            root.classList.add("dark");
+            root.classList.add("dark")
         } else {
-            root.classList.remove("dark");
+            root.classList.remove("dark")
         }
-    }, [isDark]);
+    }, [isDark])
 
     const toggleTheme = () => {
-        setIsDark(!isDark);
-    };
+        setIsDark(!isDark)
+    }
 
     // const handleClearCache = () => {
     //     localStorage.removeItem("thang3");
@@ -40,7 +40,7 @@ export default function Header() {
                 </a>
                 <div className="flex items-center gap-5">
                     <a href="/" className={`flex items-center gap-1 ${pathname === "/" ? "text-blue-500 font-bold" : ""}`}>
-                        <Calendar size={18} /> Công tháng 7
+                        <Calendar size={18} /> Công tháng 8
                     </a>
                     {/* <a href="/" className={`flex items-center gap-1 ${pathname === "/" ? "text-blue-500 font-bold" : ""}`}>
                         <Calendar size={18} /> Công tháng 6
@@ -70,5 +70,5 @@ export default function Header() {
                 </div>
             </div>
         </div>
-    );
+    )
 }

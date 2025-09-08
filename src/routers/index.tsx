@@ -5,7 +5,6 @@ import ThangBa from "../pages/thang3"
 import Thang4 from "@/pages/thang4"
 import Thang5 from "@/pages/thang5"
 import Thang6 from "@/pages/thang6"
-import Thang7 from "@/pages/thang7"
 import Thang8 from "@/pages/thang8"
 
 const router = createBrowserRouter([
