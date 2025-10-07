@@ -40,7 +40,7 @@ export default function Header() {
                 </a>
                 <div className="flex items-center gap-5">
                     <a href="/" className={`flex items-center gap-1 ${pathname === "/" ? "text-blue-500 font-bold" : ""}`}>
-                        <Calendar size={18} /> Công tháng 8
+                        <Calendar size={18} /> Công tháng 9
                     </a>
                     {/* <a href="/" className={`flex items-center gap-1 ${pathname === "/" ? "text-blue-500 font-bold" : ""}`}>
                         <Calendar size={18} /> Công tháng 6
