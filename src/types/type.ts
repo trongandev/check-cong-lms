@@ -19,3 +19,12 @@ export interface OfficeHour {
     "Confirm Status (OH only)": string;
     "Confirm Note (OH only)": string;
 }
+
+export interface APIResponse<T> {
+    ok: boolean;
+    status: string;
+    statusCode: number;
+    message: string;
+    data: T;
+    timestamp: string;
+}
