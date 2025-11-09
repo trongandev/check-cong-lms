@@ -20,7 +20,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { OfficeHour } from "@/types/type";
 import { format, parse } from "date-fns";
 
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+// import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const columns: ColumnDef<OfficeHour>[] = [
     {
@@ -165,10 +165,10 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
-    const [salary, setSalary] = React.useState(() => {
-        const savedSalary = localStorage.getItem("rank-salary");
-        return savedSalary ? Number(savedSalary) : 120;
-    });
+    // const [salary, setSalary] = React.useState(() => {
+    //     const savedSalary = localStorage.getItem("rank-salary");
+    //     return savedSalary ? Number(savedSalary) : 120;
+    // });
 
     const table = useReactTable({
         data,
@@ -205,37 +205,37 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
         );
     };
 
-    const getTotalSalary = () => {
-        const rows = table.getFilteredRowModel().rows;
-        return rows.reduce((acc, row) => {
-            const status = row.getValue("Status") as string;
-            const role = row.getValue("Class role/Office hour type") as string;
-            const studentCount = row.getValue("Student count") as number;
+    // const getTotalSalary = () => {
+    //     const rows = table.getFilteredRowModel().rows;
+    //     return rows.reduce((acc, row) => {
+    //         const status = row.getValue("Status") as string;
+    //         const role = row.getValue("Class role/Office hour type") as string;
+    //         const studentCount = row.getValue("Student count") as number;
 
-            if (status === "CHECKED") {
-                switch (role) {
-                    case "LEC":
-                    case "Judge":
-                    case "Supply":
-                        acc += salary * 1000 * 2;
-                        break;
-                    case "TA":
-                    case "Makeup":
-                        acc += salary * 1000 * 1.5;
-                        break;
-                    case "Fixed":
-                        acc += studentCount < 1 ? 100000 : 100000 * studentCount;
-                        break;
-                    case "Trial":
-                        acc += studentCount <= 1 ? 40000 : 20000 + 20000 * studentCount;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return acc;
-        }, 0);
-    };
+    //         if (status === "CHECKED") {
+    //             switch (role) {
+    //                 case "LEC":
+    //                 case "Judge":
+    //                 case "Supply":
+    //                     acc += salary * 1000 * 2;
+    //                     break;
+    //                 case "TA":
+    //                 case "Makeup":
+    //                     acc += salary * 1000 * 1.5;
+    //                     break;
+    //                 case "Fixed":
+    //                     acc += studentCount < 1 ? 100000 : 100000 * studentCount;
+    //                     break;
+    //                 case "Trial":
+    //                     acc += studentCount <= 1 ? 40000 : 20000 + 20000 * studentCount;
+    //                     break;
+    //                 default:
+    //                     break;
+    //             }
+    //         }
+    //         return acc;
+    //     }, 0);
+    // };
 
     const NOTE = {
         OFFICE_HOURS: "Công trực",
@@ -262,14 +262,14 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
                 <p>Thông tin lỗi: {error}</p>
             </div>
         );
-    const handleChangeSalary = (value: string) => {
-        localStorage.setItem("rank-salary", value);
-        setSalary(Number(value));
-    };
+    // const handleChangeSalary = (value: string) => {
+    //     localStorage.setItem("rank-salary", value);
+    //     setSalary(Number(value));
+    // };
 
     return (
         <div className="h-full flex-1">
-            <div className="grid grid-cols-1 md:grid-cols-4 py-4 gap-2 md:gap-5 flex-wrap ">
+            <div className="grid grid-cols-1 md:grid-cols-3 py-4 gap-2 md:gap-5 flex-wrap ">
                 <div className="bg-white border-purple-200 shadow-sm dark:bg-gray-700  rounded-md flex-1 p-5 border dark:border-white/10 text-purple-800 dark:text-purple-300">
                     <p className="text-sm">Tổng số</p>
                     <h1 className="text-3xl text-right font-bold ">{table.getFilteredRowModel().rows.length}</h1>
@@ -282,7 +282,7 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
                     <p className="text-sm">Chưa check</p>
                     <h1 className="text-3xl text-right font-bold">{unchecked}</h1>
                 </div>
-                <div className=" border-slate-200 shadow-sm dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-slate-800 dark:text-slate-300">
+                {/* <div className=" border-slate-200 shadow-sm dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-slate-800 dark:text-slate-300">
                     <div className="flex items-center justify-between gap-2">
                         <p className="text-sm">Tổng tiền lương</p>
                         <Select value={String(salary)} onValueChange={(value) => handleChangeSalary(value)}>
@@ -316,7 +316,7 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
                         </Select>
                     </div>
                     <h1 className="text-xl text-right font-bold mt-2">{getTotalSalary().toLocaleString()}đ</h1>
-                </div>
+                </div> */}
             </div>
             <div className="w-full ">
                 <div className="flex items-center py-4 gap-3 flex-wrap">
