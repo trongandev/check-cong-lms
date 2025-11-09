@@ -139,7 +139,7 @@ export default function MainContent({ data, isLoading, error }: { data: OfficeHo
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
-
+    const [salary, setSalary] = React.useState(0);
     const table = useReactTable({
         data,
         columns,
@@ -159,6 +159,19 @@ export default function MainContent({ data, isLoading, error }: { data: OfficeHo
         },
     });
 
+    const getTotalSalary = () => {
+        const rows = table.getFilteredRowModel().rows;
+        return rows.reduce((acc, row) => {
+            const status = row.getValue("Status") as string;
+            const role = row.getValue("Class role/Office hour type") as string;
+            if (status === "CHECKED") {
+                if (role === "LEC") {
+                    acc += salary * 2;
+                }
+            }
+            return acc;
+        }, 0);
+    };
     const getStatusCounts = () => {
         const rows = table.getFilteredRowModel().rows;
         return rows.reduce(
@@ -214,6 +227,11 @@ export default function MainContent({ data, isLoading, error }: { data: OfficeHo
                 <div className=" border-red-200 shadow-sm dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-red-800 dark:text-red-300">
                     <p className="text-sm">Chưa check</p>
                     <h1 className="text-3xl text-right font-bold">{unchecked}</h1>
+                </div>
+                <div className=" border-red-200 shadow-sm dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-red-800 dark:text-red-300">
+                    <p className="text-sm">Tổng tiền lương dsdffg</p>
+                    <h1 className="text-3xl text-right font-bold">{String(getTotalSalary()).toLocaleString()}</h1>
+                    <p>{(500000).toLocaleString()}</p>
                 </div>
             </div>
             <div className="w-full ">

@@ -15,8 +15,8 @@ export const useOfficeHours = (file_name: string, is_save: boolean) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Kiểm tra cache trong localStorage
-                const cachedData = localStorage.getItem(file_name);
+                // Kiểm tra cache trong sessionStorage
+                const cachedData = sessionStorage.getItem(file_name);
                 if (cachedData && is_save) {
                     const parsed = JSON.parse(cachedData) as OfficeHour[];
                     setData(parsed);
@@ -39,9 +39,9 @@ export const useOfficeHours = (file_name: string, is_save: boolean) => {
                         const parsedData = results.data;
                         if (is_save) {
                             try {
-                                localStorage.setItem(file_name, JSON.stringify(parsedData));
+                                sessionStorage.setItem(file_name, JSON.stringify(parsedData));
                             } catch (e) {
-                                console.warn("Failed to save to localStorage:", e);
+                                console.warn("Failed to save to sessionStorage:", e);
                             }
                         }
                         setData(parsedData);
