@@ -17,6 +17,7 @@ export const getTotalSalary = (data: OfficeHour, salary: number) => {
     const status = data["Status"] as string
     const role = data["Class role/Office hour type"] as string
     const studentCount = data["Student count"] ? parseInt(data["Student count"]) : 0
+    const slotDuration = data["Slot duration"] ? parseInt(data["Slot duration"]) : 0
 
     if (status === "CHECKED") {
         switch (role) {
@@ -26,8 +27,11 @@ export const getTotalSalary = (data: OfficeHour, salary: number) => {
                 acc += salary * 1000 * 2
                 break
             case "TA":
+                acc += (salary * 1000 * 2) / 1.33
+                break
             case "Makeup":
-                acc += salary * 1000 * 1.5
+                console.log(salary)
+                acc += studentCount > 3 ? salary * 1000 * 2 : (salary * 1000 * slotDuration) / 1.33
                 break
             case "Fixed":
                 acc += studentCount < 1 ? 100000 : 80000 + 30000 * studentCount

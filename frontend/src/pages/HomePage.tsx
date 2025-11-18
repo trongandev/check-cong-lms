@@ -67,6 +67,7 @@ export default function HomePage() {
     if (loading) {
         return <LoadingScreen />
     }
+    console.log(filterData)
     return (
         <div className="max-w-7xl mx-auto py-5 px-2 md:px-0 min-h-screen ">
             <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-5 text-gray-700">
@@ -114,7 +115,7 @@ export default function HomePage() {
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
-                        <p className="text-2xl font-medium text-right">{totalSalary.toLocaleString()}đ</p>
+                        <p className="text-2xl font-medium text-right">{Math.round(totalSalary).toLocaleString()}đ</p>
                     </div>
                 </div>
             </div>
@@ -172,7 +173,7 @@ export default function HomePage() {
                                     </Select>
                                 )}
                                 <div className="flex items-center gap-1">
-                                    <p className="text-right text-xl font-medium">{getTotalSalary(item, item.salary / 1000 / 2).toLocaleString()}đ</p>
+                                    <p className="text-right text-xl font-medium">{Math.round(item.salary).toLocaleString()}đ</p>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +198,16 @@ export default function HomePage() {
                 )}
             </div>
             <div className="space-y-5 bg-gray-100 border border-gray-300 p-4 rounded-lg">
-                <h2 className="font-medium text-gray-700 text-xl">Ghi chú</h2>
+                <div className="flex items-center justify-between">
+                    <h2 className="font-medium text-gray-700 text-xl">Ghi chú</h2>
+                    <a
+                        className="text-blue-600 underline"
+                        target="_blank"
+                        href="https://huyvvq.gitbook.io/mindxteaching-thong-tin-giao-vien-can-nam/co-che-luong-thuong/co-che-tinh-luong/chi-tiet-luong"
+                    >
+                        Xem chi tiết cách tính lương của MindX
+                    </a>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     {Object.entries(NOTE).map(([key, value]) => (
                         <div key={key} className="flex items-center gap-2">
