@@ -26,45 +26,41 @@ export default function HomePage() {
         setLoading(true)
         const fetchData = async () => {
             const data = await readCSVAndFilterAndSaveSessionStorage("t10-2025", user?.username || "")
-            setFilterData(data || [])
-            setCheck(data.filter((item) => item["Status"] === "CHECKED").length || 0)
-            setUncheck(data?.filter((item) => item["Status"] === "UNCHECKED").length || 0)
+            const getTotal = data.map((item) => {
+                const total = getTotalSalary(item, salary)
+                return {
+                    ...item,
+                    salary: total,
+                }
+            })
+            setFilterData(getTotal || [])
+            setCheck(getTotal.filter((item) => item["Status"] === "CHECKED").length || 0)
+            setUncheck(getTotal?.filter((item) => item["Status"] === "UNCHECKED").length || 0)
 
-            setTotalSalary(data?.reduce((acc, item) => acc + (item.salary || 0), 0) || 0)
+            setTotalSalary(getTotal?.reduce((acc, item) => acc + (item.salary || 0), 0) || 0)
         }
         if (user) fetchData()
         setLoading(false)
     }, [user, salary])
 
-    useEffect(() => {
-        const getTotal = filterData?.map((item) => {
-            const total = getTotalSalary(item, salary)
-            return {
-                ...item,
-                salary: total,
-            }
-        })
-        setTotalSalary(getTotal.reduce((acc, item) => acc + (item.salary || 0), 0))
-    }, [filterData, salary])
     const handleChangeSalary = (value: string) => {
         localStorage.setItem("rank-salary", value)
         setSalary(Number(value))
     }
 
-    const handleChangeSalaryItem = (value: string, slotTime: string) => {
-        const updatedData = filterData.map((item) => {
-            if (item["Slot time"] === slotTime) {
-                const updatedSalary = getTotalSalary(item, Number(value))
+    const handleChangeSalaryItem = (value: string, index: number) => {
+        const updatedData = filterData.map((dataItem, idx) => {
+            if (index === idx) {
+                const updatedSalary = getTotalSalary(dataItem, Number(value))
                 return {
-                    ...item,
+                    ...dataItem,
                     salary: updatedSalary,
-                    customRank: Number(value), // Lưu rank riêng cho item này
                 }
             }
-            return item
+            return dataItem
         })
-        setFilterData(updatedData)
         // Cập nhật lại tổng lương
+        setFilterData(updatedData)
         setTotalSalary(updatedData.reduce((acc, item) => acc + (item.salary || 0), 0))
     }
 
@@ -131,7 +127,7 @@ export default function HomePage() {
                         <div className="flex items-center gap-1">
                             <h1>{item["Centre shortname"]}</h1>
                             <Dot className="text-gray-700" />
-                            <h1 className="line-clamp-1">{item["Class name"]}</h1>
+                            <h1 className="line-clamp-1">{item["Class name"] === "undefined" ? item["Type"] : item["Class name"]}</h1>
                         </div>
                         <Badge className={`border-gray-300 bg-gray-200/50 text-inherit rounded-sm`}>{item["Class role/Office hour type"]}</Badge>
                         <div className="flex items-center justify-between gap-5">
@@ -144,37 +140,39 @@ export default function HomePage() {
                                 </p>
                             </div>
                             <div className="flex items-center justify-between gap-2">
-                                <Select value={String(item.customRank || salary)} onValueChange={(value) => handleChangeSalaryItem(value, item["Slot time"])}>
-                                    <SelectTrigger className="border-gray-400/50 shadow-none rounded-sm h-7 px-2 ">
-                                        <SelectValue placeholder="Rank" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>Rank</SelectLabel>
-                                            {Array.from({ length: 21 }).map((_, idx) => {
-                                                let sala = 0
-                                                if (idx === 2) {
-                                                    sala = 100
-                                                } else if (idx < 2) {
-                                                    sala = idx * 10 * 2 + 70
-                                                } else if (idx === 3) {
-                                                    sala = 120
-                                                } else if (idx === 4) {
-                                                    sala = 140
-                                                } else if (idx > 4) {
-                                                    sala = idx * 10 + 100
-                                                }
-                                                return (
-                                                    <SelectItem key={idx} value={String(sala)}>
-                                                        T{idx}
-                                                    </SelectItem>
-                                                )
-                                            })}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
+                                {item["Type"] !== "OFFICE_HOURS" && item["Class role/Office hour type"] !== "TA" && (
+                                    <Select value={String(item.salary / 1000 / 2)} onValueChange={(value) => handleChangeSalaryItem(value, index)}>
+                                        <SelectTrigger className="border-gray-400/50 shadow-none rounded-sm h-7 px-2 ">
+                                            <SelectValue placeholder="Rank" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectLabel>Rank</SelectLabel>
+                                                {Array.from({ length: 21 }).map((_, idx) => {
+                                                    let sala = 0
+                                                    if (idx === 2) {
+                                                        sala = 100
+                                                    } else if (idx < 2) {
+                                                        sala = idx * 10 * 2 + 70
+                                                    } else if (idx === 3) {
+                                                        sala = 120
+                                                    } else if (idx === 4) {
+                                                        sala = 140
+                                                    } else if (idx > 4) {
+                                                        sala = idx * 10 + 100
+                                                    }
+                                                    return (
+                                                        <SelectItem key={idx} value={String(sala)}>
+                                                            T{idx}
+                                                        </SelectItem>
+                                                    )
+                                                })}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                )}
                                 <div className="flex items-center gap-1">
-                                    <p className="text-right text-xl font-medium">{getTotalSalary(item, salary).toLocaleString()}đ</p>
+                                    <p className="text-right text-xl font-medium">{getTotalSalary(item, item.salary / 1000 / 2).toLocaleString()}đ</p>
                                 </div>
                             </div>
                         </div>

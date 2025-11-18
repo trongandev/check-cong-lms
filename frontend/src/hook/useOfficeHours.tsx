@@ -40,7 +40,6 @@ export const useOfficeHours = (file_name: string, username: string, is_save: boo
                         if (is_save) {
                             try {
                                 const filterUsername = parsedData?.filter((item: OfficeHour) => item.Username === username)
-                                console.log(filterUsername)
                                 sessionStorage.setItem(file_name, JSON.stringify(filterUsername))
                             } catch (e) {
                                 console.warn("Failed to save to sessionStorage:", e)

@@ -30,7 +30,7 @@ export const getTotalSalary = (data: OfficeHour, salary: number) => {
                 acc += salary * 1000 * 1.5
                 break
             case "Fixed":
-                acc += studentCount < 1 ? 100000 : 100000 * studentCount
+                acc += studentCount < 1 ? 100000 : 80000 + 30000 * studentCount
                 break
             case "Trial":
                 acc += studentCount <= 1 ? 40000 : 20000 + 20000 * studentCount
@@ -47,6 +47,7 @@ export const NOTE = {
     TA: "Trợ giảng",
     TRIAL: "Tính công trực 1 tiếng ( = online = 80k/hr)",
     FIXED: "3 tiếng trực offline",
+    OFFICE_HOURS: "Công trực",
     MAKEUP: "Dạy bù",
     SUPPLY: "Dạy thay",
 }

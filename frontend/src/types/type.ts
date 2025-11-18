@@ -19,8 +19,8 @@ export interface OfficeHour {
     "Manager Note": string
     "Confirm Status (OH only)": string
     "Confirm Note (OH only)": string
-    salary?: number
-    customRank?: number
+    salary: number
+    customRank: number
 }
 
 export interface APIResponse<T> {
