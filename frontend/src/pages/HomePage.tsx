@@ -3,9 +3,11 @@ import { OfficeHour } from "@/types/type"
 import { useEffect, useState } from "react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Clock, Dot, Globe, Users } from "lucide-react"
+import { Clock, Dot, Globe, User, Users } from "lucide-react"
 import { getTotalSalary, NOTE, readCSVAndFilterAndSaveSessionStorage } from "@/lib/utils"
 import LoadingScreen from "@/components/etc/LoadingScreen"
+import { Button } from "@/components/ui/button"
+import { Link } from "react-router-dom"
 
 export default function HomePage() {
     const [filterData, setFilterData] = useState<OfficeHour[]>([])
@@ -29,9 +31,9 @@ export default function HomePage() {
             setUncheck(data?.filter((item) => item["Status"] === "UNCHECKED").length || 0)
 
             setTotalSalary(data?.reduce((acc, item) => acc + (item.salary || 0), 0) || 0)
-            setLoading(false)
         }
-        fetchData()
+        if (user) fetchData()
+        setLoading(false)
     }, [user, salary])
 
     useEffect(() => {
@@ -181,6 +183,20 @@ export default function HomePage() {
                         </p>
                     </div>
                 ))}
+                {!user && (
+                    <div className="h-[500px] col-span-full flex items-center justify-center flex-col gap-4 text-center">
+                        <User size={48} className="text-gray-400" />
+                        <div className="">
+                            <p className="text-gray-500">Vui lòng đăng nhập để xem công và lương</p>
+
+                            <p className="text-gray-500">Sử dụng tài khoản LMS để đăng nhập</p>
+                        </div>
+
+                        <Link to="/auth/login">
+                            <Button>Đăng nhập</Button>
+                        </Link>
+                    </div>
+                )}
             </div>
             <div className="space-y-5 bg-gray-100 border border-gray-300 p-4 rounded-lg">
                 <h2 className="font-medium text-gray-700 text-xl">Ghi chú</h2>
