@@ -10,7 +10,7 @@ const generateAccessToken = (userId, role = 'user') => {
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn: '15m', // Thay đổi từ 30s thành 15m cho phù hợp
+            expiresIn: '30d', // Thay đổi từ 30s thành 30d cho phù hợp
         }
     )
 }
@@ -18,7 +18,7 @@ const generateAccessToken = (userId, role = 'user') => {
 // Tạo Refresh Token (hết hạn sau 7 ngày)
 const generateRefreshToken = (userId) => {
     return jwt.sign({ userId: userId }, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: '7d',
+        expiresIn: '30d',
     })
 }
 
