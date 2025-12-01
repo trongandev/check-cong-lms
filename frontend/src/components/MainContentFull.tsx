@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -10,17 +10,17 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
-} from "@tanstack/react-table";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+} from "@tanstack/react-table"
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { ArrowUpDown, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { OfficeHour } from "@/types/type";
-import { format, parse } from "date-fns";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { OfficeHour } from "@/types/type"
+import { format, parse } from "date-fns"
 
-// import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 const columns: ColumnDef<OfficeHour>[] = [
     {
@@ -30,7 +30,8 @@ const columns: ColumnDef<OfficeHour>[] = [
             <div
                 className={`capitalize text-sm text-center w-30 h-5 flex items-center justify-center rounded-md ${
                     row.getValue("Type") === "OFFICE_HOURS" ? "text-yellow-900 bg-yellow-100 dark:text-white/80 dark:bg-yellow-900" : "bg-cyan-100 text-cyan-900 dark:text-white/80 dark:bg-cyan-900"
-                }`}>
+                }`}
+            >
                 {row.getValue("Type")}
             </div>
         ),
@@ -43,7 +44,7 @@ const columns: ColumnDef<OfficeHour>[] = [
                     Mã lớp
                     <ArrowUpDown />
                 </Button>
-            );
+            )
         },
         cell: ({ row }) => <div className="text-wrap ">{row.getValue("Class name")}</div>,
     },
@@ -60,7 +61,7 @@ const columns: ColumnDef<OfficeHour>[] = [
                     Tên giáo viên
                     <ArrowUpDown />
                 </Button>
-            );
+            )
         },
         cell: ({ row }) => <div className="text-wrap text-teal-900 dark:text-teal-500 ">{row.getValue("Teacher name")}</div>,
     },
@@ -72,7 +73,7 @@ const columns: ColumnDef<OfficeHour>[] = [
                     Mã giáo viên
                     <ArrowUpDown />
                 </Button>
-            );
+            )
         },
         cell: ({ row }) => <div className="text-wrap text-amber-900 dark:text-amber-500 ">{row.getValue("Username")}</div>,
     },
@@ -85,21 +86,21 @@ const columns: ColumnDef<OfficeHour>[] = [
                     Ngày
                     <ArrowUpDown />
                 </Button>
-            );
+            )
         },
         cell: ({ row }) => {
-            const slotTime = row.getValue("Slot time");
-            if (!slotTime) return <div>N\A</div>;
+            const slotTime = row.getValue("Slot time")
+            if (!slotTime) return <div>N\A</div>
 
             try {
-                const date = parse(slotTime as string, "M/d/yyyy", new Date());
+                const date = parse(slotTime as string, "M/d/yyyy", new Date())
                 if (isNaN(date.getTime())) {
-                    return <div>Invalid date</div>;
+                    return <div>Invalid date</div>
                 }
-                return <div>{format(date, "dd/MM/yyyy")}</div>;
+                return <div>{format(date, "dd/MM/yyyy")}</div>
             } catch (error) {
-                console.error("Error parsing date:", error);
-                return <div>Invalid date</div>;
+                console.error("Error parsing date:", error)
+                return <div>Invalid date</div>
             }
         },
     },
@@ -111,7 +112,7 @@ const columns: ColumnDef<OfficeHour>[] = [
                     Loại công việc
                     <ArrowUpDown />
                 </Button>
-            );
+            )
         },
         cell: ({ row }) => <div className="text-center">{row.getValue("Class role/Office hour type")}</div>,
     },
@@ -123,7 +124,7 @@ const columns: ColumnDef<OfficeHour>[] = [
                     Số giờ dạy
                     <ArrowUpDown />
                 </Button>
-            );
+            )
         },
         cell: ({ row }) => <div className="text-center">{row.getValue("Slot duration")}</div>,
     },
@@ -135,7 +136,7 @@ const columns: ColumnDef<OfficeHour>[] = [
                     Số học sinh dạy
                     <ArrowUpDown />
                 </Button>
-            );
+            )
         },
         cell: ({ row }) => <div className="text-center">{row.getValue("Student count")}</div>,
     },
@@ -147,28 +148,29 @@ const columns: ColumnDef<OfficeHour>[] = [
                     Trạng thái
                     <ArrowUpDown />
                 </Button>
-            );
+            )
         },
         cell: ({ row }) => (
             <div
                 className={`capitalize text-sm text-center w-25 h-5 flex items-center justify-center rounded-sm ${
                     row.getValue("Status") === "CHECKED" ? "text-green-700 dark:text-white/90 dark:bg-green-900 bg-green-100" : "bg-red-100 text-red-700 dark:text-white/30 dark:bg-red-900"
-                }`}>
+                }`}
+            >
                 {row.getValue("Status")}
             </div>
         ),
     },
-];
+]
 
 export default function MainContentFull({ data, isLoading, error }: { data: OfficeHour[]; isLoading: boolean; error: string | null }) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-    const [rowSelection, setRowSelection] = React.useState({});
-    // const [salary, setSalary] = React.useState(() => {
-    //     const savedSalary = localStorage.getItem("rank-salary");
-    //     return savedSalary ? Number(savedSalary) : 120;
-    // });
+    const [sorting, setSorting] = React.useState<SortingState>([])
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+    const [rowSelection, setRowSelection] = React.useState({})
+    const [salary, setSalary] = React.useState(() => {
+        const savedSalary = localStorage.getItem("rank-salary")
+        return savedSalary ? Number(savedSalary) : 120
+    })
 
     const table = useReactTable({
         data,
@@ -187,55 +189,42 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
             columnVisibility,
             rowSelection,
         },
-    });
+    })
 
-    const getStatusCounts = () => {
-        const rows = table.getFilteredRowModel().rows;
-        return rows.reduce(
-            (acc, row) => {
-                const status = row.getValue("Status") as string;
-                if (status === "CHECKED") {
-                    acc.checked++;
-                } else {
-                    acc.unchecked++;
+    const getTotalSalary = () => {
+        const rows = table.getFilteredRowModel().rows
+        return rows.reduce((acc, row) => {
+            const status = row.getValue("Status") as string
+            const role = row.getValue("Class role/Office hour type") as string
+            const studentCount = row.getValue("Student count") as number
+            const slotDuration = row.getValue("Slot duration") ? parseInt(row.getValue("Slot duration")) : 0
+
+            if (status === "CHECKED") {
+                switch (role) {
+                    case "LEC":
+                    case "Judge":
+                    case "Supply":
+                        acc += salary * 1000 * 2
+                        break
+                    case "TA":
+                        acc += (salary * 1000 * 2 * 75) / 100
+                        break
+                    case "Makeup":
+                        acc += studentCount > 3 ? salary * 1000 * 2 : (salary * 1000 * slotDuration * 75) / 100
+                        break
+                    case "Fixed":
+                        acc += studentCount < 1 ? 100000 : 80000 + 30000 * studentCount
+                        break
+                    case "Trial":
+                        acc += studentCount <= 1 ? 40000 : 20000 + 20000 * studentCount
+                        break
+                    default:
+                        break
                 }
-                return acc;
-            },
-            { checked: 0, unchecked: 0 }
-        );
-    };
-
-    // const getTotalSalary = () => {
-    //     const rows = table.getFilteredRowModel().rows;
-    //     return rows.reduce((acc, row) => {
-    //         const status = row.getValue("Status") as string;
-    //         const role = row.getValue("Class role/Office hour type") as string;
-    //         const studentCount = row.getValue("Student count") as number;
-
-    //         if (status === "CHECKED") {
-    //             switch (role) {
-    //                 case "LEC":
-    //                 case "Judge":
-    //                 case "Supply":
-    //                     acc += salary * 1000 * 2;
-    //                     break;
-    //                 case "TA":
-    //                 case "Makeup":
-    //                     acc += salary * 1000 * 1.5;
-    //                     break;
-    //                 case "Fixed":
-    //                     acc += studentCount < 1 ? 100000 : 100000 * studentCount;
-    //                     break;
-    //                 case "Trial":
-    //                     acc += studentCount <= 1 ? 40000 : 20000 + 20000 * studentCount;
-    //                     break;
-    //                 default:
-    //                     break;
-    //             }
-    //         }
-    //         return acc;
-    //     }, 0);
-    // };
+            }
+            return acc
+        }, 0)
+    }
 
     const NOTE = {
         OFFICE_HOURS: "Công trực",
@@ -244,45 +233,37 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
         MAKEUP: "Dạy bù",
         SUPPLY: "Dạy thay",
         CLASS: "Lớp dạy",
-    };
+    }
 
     // Lấy số lượng checked và unchecked
-    const { checked, unchecked } = getStatusCounts();
 
     if (isLoading)
         return (
             <div className="h-screen flex items-center justify-center">
                 <div className="w-8 h-8 border-x-2 border-x-gray-500 rounded-full animate-spin"></div>
             </div>
-        );
+        )
     if (error)
         return (
             <div>
                 <h1 className="text-red-500 text-md">Lỗi do sử dụng safari, hãy dùng trình duyệt khác</h1>
                 <p>Thông tin lỗi: {error}</p>
             </div>
-        );
-    // const handleChangeSalary = (value: string) => {
-    //     localStorage.setItem("rank-salary", value);
-    //     setSalary(Number(value));
-    // };
+        )
+    const handleChangeSalary = (value: string) => {
+        localStorage.setItem("rank-salary", value)
+        setSalary(Number(value))
+    }
 
     return (
-        <div className="h-full flex-1">
-            <div className="grid grid-cols-1 md:grid-cols-3 py-4 gap-2 md:gap-5 flex-wrap ">
+        <div className="h-full flex-1 px-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 py-4 gap-2 md:gap-5 flex-wrap ">
                 <div className="bg-white border-purple-200 shadow-sm dark:bg-gray-700  rounded-md flex-1 p-5 border dark:border-white/10 text-purple-800 dark:text-purple-300">
                     <p className="text-sm">Tổng số</p>
                     <h1 className="text-3xl text-right font-bold ">{table.getFilteredRowModel().rows.length}</h1>
                 </div>
-                <div className="bg-white border-green-200 shadow-sm dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-green-800 dark:text-green-300">
-                    <p className="text-sm">Đã check</p>
-                    <h1 className="text-3xl text-right font-bold">{checked}</h1>
-                </div>
-                <div className=" border-red-200 shadow-sm dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-red-800 dark:text-red-300">
-                    <p className="text-sm">Chưa check</p>
-                    <h1 className="text-3xl text-right font-bold">{unchecked}</h1>
-                </div>
-                {/* <div className=" border-slate-200 shadow-sm dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-slate-800 dark:text-slate-300">
+
+                <div className=" border-slate-200 shadow-sm   dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-slate-800 dark:text-slate-300">
                     <div className="flex items-center justify-between gap-2">
                         <p className="text-sm">Tổng tiền lương</p>
                         <Select value={String(salary)} onValueChange={(value) => handleChangeSalary(value)}>
@@ -293,30 +274,30 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
                                 <SelectGroup>
                                     <SelectLabel>Rank</SelectLabel>
                                     {Array.from({ length: 21 }).map((_, idx) => {
-                                        let salary = 0;
+                                        let salary = 0
                                         if (idx === 2) {
-                                            salary = 100;
+                                            salary = 100
                                         } else if (idx < 2) {
-                                            salary = idx * 10 * 2 + 70;
+                                            salary = idx * 10 * 2 + 70
                                         } else if (idx === 3) {
-                                            salary = 120;
+                                            salary = 120
                                         } else if (idx === 4) {
-                                            salary = 140;
+                                            salary = 140
                                         } else if (idx > 4) {
-                                            salary = idx * 10 + 100;
+                                            salary = idx * 10 + 100
                                         }
                                         return (
                                             <SelectItem key={idx} value={String(salary)} onSelect={() => setSalary(salary)}>
                                                 T{idx} {`- ${salary}k/hr`}
                                             </SelectItem>
-                                        );
+                                        )
                                     })}
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
                     </div>
                     <h1 className="text-xl text-right font-bold mt-2">{getTotalSalary().toLocaleString()}đ</h1>
-                </div> */}
+                </div>
             </div>
             <div className="w-full ">
                 <div className="flex items-center py-4 gap-3 flex-wrap">
@@ -355,7 +336,7 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
                                         <DropdownMenuCheckboxItem key={column.id} className="capitalize" checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>
                                             {column.id}
                                         </DropdownMenuCheckboxItem>
-                                    );
+                                    )
                                 })}
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -366,7 +347,7 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <TableRow key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => {
-                                        return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
+                                        return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>
                                     })}
                                 </TableRow>
                             ))}
@@ -386,7 +367,7 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
                                 </TableRow>
                             ) : table.getRowModel().rows?.length ? (
                                 table.getRowModel().rows.map((row) => (
-                                    <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-gray-100 dark:hover:bg-slate-800 cursor-pointer">
+                                    <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="hover:bg-gray-100 dark:hover:bg-slate-800 ">
                                         {row.getVisibleCells().map((cell) => (
                                             <TableCell key={cell.id} className="py-5">
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -430,5 +411,5 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
                 </div>
             </div>
         </div>
-    );
+    )
 }

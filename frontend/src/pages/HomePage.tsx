@@ -67,23 +67,22 @@ export default function HomePage() {
     if (loading) {
         return <LoadingScreen />
     }
-    console.log(filterData)
     return (
         <div className="max-w-7xl mx-auto py-5 px-2 md:px-0 min-h-screen ">
             <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-5 text-gray-700">
-                <div className="border border-gray-300 rounded-md p-3 md:p-5 bg-gray-200/40 ">
+                <div className="border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50 ">
                     <h1 className="">Tổng số công</h1>
                     <p className="text-2xl font-medium text-right">{filterData.length}</p>
                 </div>
-                <div className="border border-gray-300 rounded-md p-3 md:p-5 bg-gray-200/40">
+                <div className="border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50">
                     <h1 className="">Công check</h1>
                     <p className="text-2xl font-medium text-right">{check}</p>
                 </div>
-                <div className="border border-red-300/80 rounded-md p-3 md:p-5 bg-red-50 text-red-900">
+                <div className="border border-red-300/80 rounded-md p-3 md:p-5 bg-red-50/50 text-red-900">
                     <h1 className="">Công uncheck</h1>
                     <p className="text-2xl font-medium text-right">{uncheck}</p>
                 </div>
-                <div className="border border-sky-300/80 rounded-md p-3 md:p-5 bg-sky-50 text-sky-900">
+                <div className="border border-sky-300/80 rounded-md p-3 md:p-5 bg-sky-50/50 text-sky-900">
                     <h1 className="">Lương</h1>
                     <div className="flex gap-2 flex-col md:flex-row  justify-between">
                         <Select value={String(salary)} onValueChange={(value) => handleChangeSalary(value)}>
@@ -121,10 +120,7 @@ export default function HomePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-5 my-10">
                 {filterData.map((item, index) => (
-                    <div
-                        key={index}
-                        className={`border ${item.Status === "UNCHECKED" ? "border-red-300 bg-red-200/50 text-red-900" : "border-gray-300 bg-gray-200/50"} p-3 md:p-5 rounded-md space-y-3`}
-                    >
+                    <div key={index} className={`border ${item.Status === "UNCHECKED" ? "border-red-300 bg-red-200/50 text-red-900" : "border-gray-300 bg-gray-50"} p-3 md:p-5 rounded-md space-y-3`}>
                         <div className="flex items-center gap-1">
                             <h1>{item["Centre shortname"]}</h1>
                             <Dot className="text-gray-700" />
@@ -197,7 +193,7 @@ export default function HomePage() {
                     </div>
                 )}
             </div>
-            <div className="space-y-5 bg-gray-100 border border-gray-300 p-4 rounded-lg">
+            <div className="space-y-5 bg-gray-50/50 border border-gray-300 p-4 rounded-lg">
                 <div className="flex items-center justify-between">
                     <h2 className="font-medium text-gray-700 text-xl">Ghi chú</h2>
                     <a

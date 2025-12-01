@@ -8,7 +8,7 @@ interface ParseResult {
     meta: Papa.ParseMeta
 }
 
-export const useOfficeHours = (file_name: string, username: string, is_save: boolean) => {
+export const useOfficeHours = (file_name: string, username: string, is_save?: boolean) => {
     const [data, setData] = useState<OfficeHour[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
@@ -37,10 +37,16 @@ export const useOfficeHours = (file_name: string, username: string, is_save: boo
                             console.warn("CSV parsing warnings:", results.errors)
                         }
                         const parsedData = results.data
-                        if (is_save) {
+                        if (username) {
                             try {
                                 const filterUsername = parsedData?.filter((item: OfficeHour) => item.Username === username)
                                 sessionStorage.setItem(file_name, JSON.stringify(filterUsername))
+                            } catch (e) {
+                                console.warn("Failed to save to sessionStorage:", e)
+                            }
+                        } else {
+                            try {
+                                sessionStorage.setItem(file_name, JSON.stringify(parsedData))
                             } catch (e) {
                                 console.warn("Failed to save to sessionStorage:", e)
                             }
