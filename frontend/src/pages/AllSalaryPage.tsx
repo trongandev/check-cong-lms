@@ -80,7 +80,7 @@ export default function AllSalaryPage() {
     return (
         <div className="max-w-7xl mx-auto py-5 px-2 md:px-0 min-h-screen ">
             <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 text-gray-700">
-                <div className="col-span-2 border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50 ">
+                <div className="col-span-2 md:col-span-1 border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50 ">
                     <div className="flex items-center justify-between">
                         <h1 className="">Tổng số công:</h1>
                         <Select value={dateTime} onValueChange={(value) => setDateTime(value)}>
@@ -110,7 +110,7 @@ export default function AllSalaryPage() {
                     </div>
                 </div>
 
-                <div className="col-span-2 border border-sky-300/80 rounded-md p-3 md:p-5 bg-sky-50/50 text-sky-900">
+                <div className="col-span-2  md:col-span-1 border border-sky-300/80 rounded-md p-3 md:p-5 bg-sky-50/50 text-sky-900">
                     <h1 className="">Lương {dateTime.toUpperCase()}</h1>
                     <div className="flex gap-2 flex-col md:flex-row  justify-between">
                         <Select value={String(salary)} onValueChange={(value) => handleChangeSalary(value)}>
