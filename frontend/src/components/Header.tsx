@@ -1,5 +1,5 @@
 import logo from "/logo.svg"
-import { Calendar, LayoutDashboard, LogOut, PhoneCall, User, Users } from "lucide-react"
+import { Calendar, LayoutDashboard, LogOut, PhoneCall, User } from "lucide-react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "@/contexts/AuthContext"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -14,10 +14,9 @@ export default function Header() {
     const pathname = useLocation().pathname
     const navigate = useNavigate()
     const linkData = [
-        { name: "Công T10", icon: Calendar, href: "/", target: "_self" },
+        { name: "Công Tháng 10", icon: Calendar, href: "/", target: "_self" },
         { name: "Tất cả công", icon: LayoutDashboard, href: "/tat-ca-cong", target: "_self" },
         { name: "Admin Panel", icon: LayoutDashboard, href: "/admin", target: "_self", role: "admin" },
-        { name: "Mentor Biên Hòa", icon: Users, href: "https://mindx-teaching.vercel.app/", target: "_blank" },
     ]
     return (
         <>

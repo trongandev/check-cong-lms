@@ -80,6 +80,16 @@ export default function AllSalaryPage() {
     return (
         <div className="max-w-7xl mx-auto py-5 px-2 md:px-0 min-h-screen ">
             <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 text-gray-700">
+                <div className="border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50 ">
+                    <h1 className="">Tổng tiền lương năm 2025</h1>
+
+                    <p className="text-2xl font-medium text-right">{totalAllSalary.toLocaleString()}đ</p>
+                </div>
+                <div className="border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50 ">
+                    <h1 className="">Tổng thời gian cống hiến năm 2025</h1>
+
+                    <p className="text-2xl font-medium text-right">{allTime.toLocaleString()} giờ</p>
+                </div>
                 <div className="col-span-2 md:col-span-1 border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50 ">
                     <div className="flex items-center justify-between">
                         <h1 className="">Tổng số công:</h1>
@@ -144,16 +154,6 @@ export default function AllSalaryPage() {
                         </Select>
                         <p className="text-2xl font-medium text-right">{Math.round(totalSalary).toLocaleString()}đ</p>
                     </div>
-                </div>
-                <div className="border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50 ">
-                    <h1 className="">Tổng số tiền lương nhận từ MindX</h1>
-
-                    <p className="text-2xl font-medium text-right">{totalAllSalary.toLocaleString()}đ</p>
-                </div>
-                <div className="border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50 ">
-                    <h1 className="">Tổng thời gian cống hiến cho MindX</h1>
-
-                    <p className="text-2xl font-medium text-right">{allTime.toLocaleString()} giờ</p>
                 </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-5 my-10">
