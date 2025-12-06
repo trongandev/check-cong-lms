@@ -16,7 +16,7 @@ export default function AllSalaryPage() {
         const savedSalary = localStorage.getItem("rank-salary")
         return savedSalary ? Number(savedSalary) : 120
     })
-    const [dateTime, setDateTime] = useState<string>("t10-2025")
+    const [dateTime, setDateTime] = useState<string>("t11-2025")
     const [allTime, setAllTime] = useState<number>(0)
     const [totalSalary, setTotalSalary] = useState<number>(0)
     const [totalAllSalary, setTotalAllSalary] = useState<number>(0)
@@ -100,7 +100,7 @@ export default function AllSalaryPage() {
                             <SelectContent>
                                 <SelectGroup>
                                     <SelectLabel>Rank</SelectLabel>
-                                    {Array.from({ length: 11 }).map((_, idx) => {
+                                    {Array.from({ length: 12 }).map((_, idx) => {
                                         const month = `t${idx}-2025`
                                         if (idx === 0) return null
                                         return (
