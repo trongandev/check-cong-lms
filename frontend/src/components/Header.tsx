@@ -14,7 +14,7 @@ export default function Header() {
     const pathname = useLocation().pathname
     const navigate = useNavigate()
     const linkData = [
-        { name: "Công Tháng 10", icon: Calendar, href: "/", target: "_self" },
+        { name: "Công Tháng 11", icon: Calendar, href: "/", target: "_self" },
         { name: "Tất cả công", icon: LayoutDashboard, href: "/tat-ca-cong", target: "_self" },
         { name: "Admin Panel", icon: LayoutDashboard, href: "/admin", target: "_self", role: "admin" },
     ]
