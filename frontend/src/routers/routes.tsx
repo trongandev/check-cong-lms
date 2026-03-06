@@ -5,11 +5,10 @@ import HomeLayout from "@/pages/HomeLayout"
 import RootLayout from "@/pages/RootLayout"
 import HomePage from "@/pages/HomePage"
 import AuthLayout from "@/pages/AuthLayout"
-import RegisterPage from "@/pages/RegisterPage"
-import ForgotPasswordPage from "@/pages/ForgotPasswordPage"
 import LoginPage from "@/pages/LoginPage"
-import AdminPage from "@/pages/AdminPage"
-import AllSalaryPage from "@/pages/AllSalaryPage"
+// import AdminPage from "@/pages/AdminPage"
+// import AllSalaryPage from "@/pages/AllSalaryPage"
+import ConfigSystem from "@/pages/ConfigSystem"
 
 const routes: RouteObject[] = [
     {
@@ -24,13 +23,17 @@ const routes: RouteObject[] = [
                         index: true,
                         element: <HomePage />,
                     },
+                    // {
+                    //     path: "admin",
+                    //     element: <AdminPage />,
+                    // },
+                    // {
+                    //     path: "tat-ca-cong",
+                    //     element: <AllSalaryPage />,
+                    // },
                     {
-                        path: "admin",
-                        element: <AdminPage />,
-                    },
-                    {
-                        path: "tat-ca-cong",
-                        element: <AllSalaryPage />,
+                        path: "config",
+                        element: <ConfigSystem />,
                     },
                 ],
             },
@@ -41,14 +44,6 @@ const routes: RouteObject[] = [
                     {
                         path: "login",
                         element: <LoginPage />,
-                    },
-                    {
-                        path: "register",
-                        element: <RegisterPage />,
-                    },
-                    {
-                        path: "forgot-password",
-                        element: <ForgotPasswordPage />,
                     },
                 ],
             },

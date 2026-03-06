@@ -10,4 +10,7 @@ router.use('/auth', require('./auth.router'))
 
 router.use('/profile', require('./profile.router'))
 
+router.use('/config', require('./config.router'))
+router.use('/salary', require('./salary.router'))
+
 module.exports = router

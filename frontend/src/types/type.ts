@@ -23,6 +23,19 @@ export interface OfficeHour {
     customRank: number
 }
 
+export interface OfficeHourSelected {
+    "Centre shortname": string
+    Type: string
+    "Class name": string
+    "Class role/Office hour type": string
+    Status: string
+    "Slot time": string
+    "Slot duration": string
+    "Student count": string
+    salary: number
+    rank: string
+}
+
 export interface APIResponse<T> {
     ok: boolean
     status: string
@@ -30,4 +43,40 @@ export interface APIResponse<T> {
     message: string
     data: T
     timestamp: string
+}
+
+export interface ConfigRequest {
+    version: string
+    linkSheet: LinkSheetRequest[]
+    posLinkSheetToSplit: number
+    paramEndLinkSheet: string
+}
+
+export interface LinkSheetRequest {
+    _id: string
+    month: string
+    link: string
+}
+
+export interface SalaryDataResponse {
+    "Centre shortname": string
+    Type: string
+    "Class name": string
+    "Class role/Office hour type": string
+    Status: string
+    "Slot time": string
+    "Slot duration": string
+    "Student count": string
+    salary: number
+    rank: string
+    _id: string
+}
+
+export interface SalaryResponse {
+    _id: string
+    username: string
+    dateTimeKey: string
+    data: SalaryDataResponse[]
+    createdAt: string
+    updatedAt: string
 }

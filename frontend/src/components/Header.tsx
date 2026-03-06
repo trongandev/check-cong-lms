@@ -1,5 +1,5 @@
 import logo from "/logo.svg"
-import { Calendar, LayoutDashboard, LogOut, PhoneCall, User } from "lucide-react"
+import { Calendar, LayoutDashboard, LogOut, MonitorCog, PhoneCall, User } from "lucide-react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "@/contexts/AuthContext"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -7,16 +7,20 @@ import { Button } from "@/components/ui/button"
 import AvatarCircle from "@/components/etc/AvatarCircle"
 import { Separator } from "@/components/ui/separator"
 import { createElement } from "react"
+import { useGlobalContext } from "@/contexts/globalContext"
 
 export default function Header() {
     const { user, logout } = useAuth()
 
     const pathname = useLocation().pathname
     const navigate = useNavigate()
+    const { state } = useGlobalContext()
+
     const linkData = [
-        { name: "Công Tháng 11", icon: Calendar, href: "/", target: "_self" },
+        { name: `Tháng ${state.dateTimeKey}`, icon: Calendar, href: "/", target: "_self" },
         { name: "Tất cả công", icon: LayoutDashboard, href: "/tat-ca-cong", target: "_self" },
         { name: "Admin Panel", icon: LayoutDashboard, href: "/admin", target: "_self", role: "admin" },
+        { name: "Cấu hình", icon: MonitorCog, href: "/config", target: "_self", role: "admin" },
     ]
     return (
         <>

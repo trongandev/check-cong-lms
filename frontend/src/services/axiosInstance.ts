@@ -41,7 +41,7 @@ axiosInstance.interceptors.request.use(
     },
     (error) => {
         return Promise.reject(error)
-    }
+    },
 )
 
 // Response Interceptor - Handle token refresh
@@ -104,7 +104,7 @@ axiosInstance.interceptors.response.use(
 
                 // Redirect to login page
                 if (typeof window !== "undefined") {
-                    window.location.href = "/auth?redirect=" + window.location.pathname
+                    window.location.href = "/auth/login?redirect=" + window.location.pathname
                 }
 
                 return Promise.reject(refreshError)
@@ -114,7 +114,7 @@ axiosInstance.interceptors.response.use(
         }
 
         return Promise.reject(error)
-    }
+    },
 )
 
 export default axiosInstance
