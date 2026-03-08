@@ -5,13 +5,13 @@ const morgan = require('morgan')
 const dotenv = require('dotenv')
 const errorHandler = require('./middlewares/errorHandler')
 const connectDB = require('./configs/db.config')
+const DatabaseSeeder = require('./configs/db-seeder')
 
 dotenv.config()
 const app = express()
 
 connectDB()
-
-// Đường dẫn đến file chứng chỉ và khóa riêng
+DatabaseSeeder()
 
 app.use(cors())
 app.use(express.json())

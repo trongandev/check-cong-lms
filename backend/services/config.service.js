@@ -9,14 +9,16 @@ class ConfigService {
     async createConfigDefault() {
         const existingConfig = await ConfigModel.findOne({ version: 'default' })
         if (existingConfig) {
+            console.log('Config ["Default"] is exitsing')
             return existingConfig
         }
         const newConfig = new ConfigModel({
             version: 'default',
             linkSheet: [],
-            posLinkSheetToSplit: 5,
+            posLinkSheetToSplit: 6,
             paramEndLinkSheet: 'gviz/tq?tqx=out:csv&gid=0',
         })
+        console.log('Create config default success')
         await newConfig.save()
         return newConfig
     }
