@@ -3,52 +3,36 @@ const { UserModel } = require('../models/user.model')
 const configService = require('./config.service')
 const axios = require('axios')
 const Papa = require('papaparse')
+const officehoursService = require('./officehours.service')
+const { OfficeHoursModel } = require('../models/officehours.model')
 class SalaryService {
     async getSalaryByUsername(req) {
+        const { date } = req.query
         const { email } = req.user
         const finalUsername = email.split('@')[0]
         const config = await configService.getConfigDefault()
-        if (config.linkSheet.length === 0) {
-            throw new Error('Chưa có link sheet nào được cấu hình')
+        let currentConfig = null
+        if (date) {
+            currentConfig = config.linkSheet.find((item) => item.month === date)
+        } else {
+            currentConfig = config.linkSheet[config.linkSheet.length - 1]
         }
-        const currentConfig = config.linkSheet[config.linkSheet.length - 1]
-        const findSalary = await SalaryModel.findOne({ username: finalUsername, dateTimeKey: currentConfig.month }).lean()
-        if (findSalary) {
-            return findSalary
-        }
-
-        try {
-            // Gửi yêu cầu đến URL
-            const splitLink = currentConfig.link.split('/')
-            splitLink[6] = config.paramEndLinkSheet
-            const finalLink = splitLink.join('/')
-            const response = await axios(finalLink)
-            const csvData = response.data
-            let data = []
-            Papa.parse(csvData, {
-                header: true,
-                skipEmptyLines: true,
-                complete: (results) => {
-                    if (results.errors.length > 0) {
-                        console.warn('CSV parsing warnings:', results.errors)
-                    }
-                    data = results.data?.filter((item) => item.Username === finalUsername)
+        const findOfficeHours = await OfficeHoursModel.aggregate([
+            { $match: { dateTimeKey: currentConfig.month } },
+            {
+                $project: {
+                    dateTimeKey: 1,
+                    data: {
+                        $filter: {
+                            input: '$data',
+                            as: 'item',
+                            cond: { $eq: ['$$item.Username', finalUsername] },
+                        },
+                    },
                 },
-                transform: (value) => {
-                    return value.trim() // Clean up whitespace
-                },
-            })
-            const newSalary = new SalaryModel({
-                username: finalUsername,
-                dateTimeKey: currentConfig.month,
-                data: data,
-            })
-            await newSalary.save()
-            return newSalary
-        } catch (error) {
-            console.error('Error fetching or parsing data:', error.message)
-            throw new Error('Lỗi khi lấy dữ liệu bảng lương')
-        }
+            },
+        ])
+        return findOfficeHours[0]
     }
 
     async updateProfile(req) {

@@ -1,6 +1,28 @@
-// import MainContentFull from "@/components/MainContentFull"
+import MainContentFull from "@/components/MainContentFull"
+import officeHoursService from "@/services/officeHoursService"
+import { OfficeHour } from "@/types/type"
+import { useEffect, useState } from "react"
 
-// export default function AdminPage() {
-//     const { data, isLoading, error } = useOfficeHours("t10-2025", "")
-//     return <MainContentFull data={data} isLoading={isLoading} error={error} />
-// }
+export default function AdminPage() {
+    const [data, setData] = useState<OfficeHour[]>([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
+
+    useEffect(() => {
+        const fetchAPI = async () => {
+            setIsLoading(true)
+            setError(null)
+            try {
+                const req = await officeHoursService.getAll({})
+                setData(req.data)
+            } catch (err: any) {
+                setError(err)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+        fetchAPI()
+    }, [])
+
+    return <MainContentFull data={data} isLoading={isLoading} error={error} />
+}

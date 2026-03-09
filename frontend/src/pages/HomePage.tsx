@@ -1,5 +1,5 @@
 import { useAuth } from "@/contexts/AuthContext"
-import { SalaryDataResponse } from "@/types/type"
+import { OfficeHour } from "@/types/type"
 import { useEffect, useState } from "react"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
@@ -8,18 +8,21 @@ import { getTotalSalary, NOTE } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import LoadingIcon from "@/components/ui/loading-icon"
-import salaryService from "@/services/salaryService"
 import { useGlobalContext } from "@/contexts/globalContext"
+import officeHoursService from "@/services/officeHoursService"
 
 export default function HomePage() {
-    const [filterData, setFilterData] = useState<SalaryDataResponse[]>([])
+    const [filterData, setFilterData] = useState<OfficeHour[]>([])
     const [salary, setSalary] = useState(() => {
         const savedSalary = localStorage.getItem("rank-salary")
         return savedSalary ? Number(savedSalary) : 120
     })
 
-    const [check, setCheck] = useState<number>(0)
-    const [uncheck, setUncheck] = useState<number>(0)
+    const [stateDataSalary, setStateDataSalary] = useState({
+        totalCheck: 0,
+        totalUncheck: 0,
+        totalTime: 0,
+    })
     const [totalSalary, setTotalSalary] = useState<number>(0)
     const [loading, setLoading] = useState(false)
     const { user } = useAuth()
@@ -27,7 +30,7 @@ export default function HomePage() {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const data = await salaryService.getSalaryByUser()
+            const data = await officeHoursService.getOfficeHoursByUser({})
             setGlobal("dateTimeKey", data.dateTimeKey)
             const getTotal = data.data.map((item) => {
                 const total = getTotalSalary(item, salary)
@@ -36,10 +39,16 @@ export default function HomePage() {
                     salary: total,
                 }
             })
-            console.log(data)
             setFilterData(getTotal || [])
-            setCheck(getTotal.filter((item) => item["Status"] === "CHECKED").length || 0)
-            setUncheck(getTotal?.filter((item) => item["Status"] === "UNCHECKED").length || 0)
+
+            const totalCheck = getTotal.filter((item) => item["Status"] === "CHECKED").length || 0
+            const totalUncheck = getTotal.filter((item) => item["Status"] === "UNCHECKED").length || 0
+            const totalTime = getTotal.reduce((acc, item) => acc + (Number(item["Slot duration"]) ? 1 : 0), 0) || 0
+            setStateDataSalary({
+                totalCheck: totalCheck,
+                totalUncheck: totalUncheck,
+                totalTime: totalTime,
+            })
 
             setTotalSalary(getTotal?.reduce((acc, item) => acc + (item.salary || 0), 0) || 0)
             setLoading(false)
@@ -73,15 +82,15 @@ export default function HomePage() {
             <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-5 text-gray-700">
                 <div className="border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50 ">
                     <h1 className="">Tổng số công</h1>
-                    <p className="text-2xl font-medium text-right">{filterData.length}</p>
+                    <p className="text-2xl font-medium text-right">{stateDataSalary.totalCheck + stateDataSalary.totalUncheck}</p>
                 </div>
                 <div className="border border-gray-300 rounded-md p-3 md:p-5 bg-gray-50/50">
                     <h1 className="">Công check</h1>
-                    <p className="text-2xl font-medium text-right">{check}</p>
+                    <p className="text-2xl font-medium text-right">{stateDataSalary.totalCheck}</p>
                 </div>
                 <div className="border border-red-300/80 rounded-md p-3 md:p-5 bg-red-50/50 text-red-900">
                     <h1 className="">Công uncheck</h1>
-                    <p className="text-2xl font-medium text-right">{uncheck}</p>
+                    <p className="text-2xl font-medium text-right">{stateDataSalary.totalUncheck}</p>
                 </div>
                 <div className="border border-sky-300/80 rounded-md p-3 md:p-5 bg-sky-50/50 text-sky-900">
                     <h1 className="">Lương</h1>

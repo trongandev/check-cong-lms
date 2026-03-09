@@ -1,4 +1,5 @@
 const { ConfigModel } = require('../models/config.model')
+const officehoursService = require('./officehours.service')
 
 class ConfigService {
     async getConfigDefault() {
@@ -6,6 +7,7 @@ class ConfigService {
         return findConfig
     }
 
+    // hàm này sẽ tự động seeder khi npm run dev server
     async createConfigDefault() {
         const existingConfig = await ConfigModel.findOne({ version: 'default' })
         if (existingConfig) {
@@ -28,13 +30,14 @@ class ConfigService {
         if (!config) {
             throw new Error('Default config not found')
         }
-        if (config.linkSheet.some((link) => link._id == dataLink._id)) {
-            config.linkSheet = config.linkSheet.map((link) => (link._id == dataLink._id ? dataLink : link))
+        if (config.linkSheet.some((link) => link.month == dataLink.month)) {
+            config.linkSheet = config.linkSheet.map((link) => (link.month == dataLink.month ? dataLink : link))
             await ConfigModel.updateOne({ version: 'default' }, { linkSheet: config.linkSheet })
             return config
         }
         config.linkSheet.push(dataLink)
         await ConfigModel.updateOne({ version: 'default' }, { linkSheet: config.linkSheet })
+        await officehoursService.create(dataLink, config)
         return config
     }
 

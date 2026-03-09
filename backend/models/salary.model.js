@@ -36,9 +36,12 @@ const SalarySchema = new mongoose.Schema(
     {
         username: String,
         dateTimeKey: String, // Format: 'MM/YYYY' for ex: '09/2023'
+        totalCheck: Number,
+        totalUncheck: Number,
+        totalTime: Number,
         data: [SalaryDataSchema],
     },
-    { timestamps: true }
+    { timestamps: true },
 )
 
 module.exports = { SalaryModel: mongoose.model('SalaryModel', SalarySchema), SalaryDataSchema: mongoose.model('SalaryDataSchema', SalaryDataSchema) }

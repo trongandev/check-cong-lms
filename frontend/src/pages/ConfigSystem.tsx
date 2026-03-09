@@ -10,6 +10,7 @@ import { toast } from "sonner"
 import * as Yup from "yup"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { Link } from "react-router-dom"
 export default function ConfigSystem() {
     const [loading, setLoading] = useState(false)
     const [showModel, setShowModel] = useState<{ type: string; status: boolean }>({ type: "add", status: false }) // null or sheet object
@@ -49,7 +50,6 @@ export default function ConfigSystem() {
     const handleSubmit = async (values: any) => {
         try {
             // Handle form submission
-            console.log(values)
             setLoading(true)
             if (showModel.type === "add") {
                 delete values._id
@@ -70,7 +70,6 @@ export default function ConfigSystem() {
     }
 
     const handleDelete = async (_id: string) => {
-        console.log(_id)
         try {
             setLoading(true)
             await configService.deleteLinkSheet(_id)
@@ -90,14 +89,19 @@ export default function ConfigSystem() {
         <div className="max-w-7xl mx-auto py-5 px-2 md:px-0 min-h-screen ">
             <div className="flex justify-between items-center mb-5">
                 <h1 className="text-2xl font-medium">Cấu hình hệ thống</h1>
-                <Button
-                    onClick={() => {
-                        setShowModel({ type: "add", status: true })
-                        formik.resetForm()
-                    }}
-                >
-                    Thêm cấu hình mới
-                </Button>
+                <div className="flex gap-3">
+                    <Link to={"https://drive.google.com/drive/u/5/folders/1rb9sBT6z7OdIr984HFaVuzIXQQlLkfl3"} target="_blank">
+                        <Button variant={"outline"}>Mở Google Drive</Button>
+                    </Link>
+                    <Button
+                        onClick={() => {
+                            setShowModel({ type: "add", status: true })
+                            formik.resetForm()
+                        }}
+                    >
+                        Thêm cấu hình mới
+                    </Button>
+                </div>
             </div>
 
             <div className="mt-10">
@@ -140,8 +144,33 @@ export default function ConfigSystem() {
                                 </div>
                             </div>
                         ))}
-                    {configData?.linkSheet.length === 0 && <p className="text-gray-700">Chưa có cấu hình sheet nào. Vui lòng thêm mới.</p>}
+                    {!configData && <p className="text-gray-700">Chưa có cấu hình sheet nào. Vui lòng thêm mới.</p>}
                 </div>
+            </div>
+            <div className="mt-10">
+                <p>Cách thực hiện:</p>
+                <ul className="list-disc list-inside">
+                    <li>
+                        Tải lên công lương mới vào thư mục{" "}
+                        <Link className="underline text-red-500" to={"https://drive.google.com/drive/u/5/folders/1rb9sBT6z7OdIr984HFaVuzIXQQlLkfl3"} target="_blank">
+                            trên Google Drive
+                        </Link>
+                        .
+                    </li>
+                    <li>
+                        Click chuột phải vào file công lương bất kì, chọn <span className="font-bold ">"Chia sẻ"</span>, chọn <span className="font-bold ">"Sao chép đường liên kết"</span>.
+                        <img src="/guide.png" alt="" className="mt-2" />
+                    </li>
+                    <li>
+                        Nhấn vào nút <span className="font-bold ">"Thêm cấu hình mới"</span>
+                    </li>
+                    <li>
+                        Điền thông tin vào 2 trường: <span className="font-bold ">"Tháng"</span> và <span className="font-bold ">"Liên kết"</span>
+                    </li>
+                    <li>
+                        Lưu ý trường <span className="font-bold ">"Tháng"</span> định dạng là MM/YYYY (VD: 12/2025, 01/2026)
+                    </li>
+                </ul>
             </div>
             <Dialog open={showModel.status} onOpenChange={() => setShowModel({ type: "add", status: false })}>
                 <DialogContent>

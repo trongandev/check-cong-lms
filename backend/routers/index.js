@@ -12,5 +12,6 @@ router.use('/profile', require('./profile.router'))
 
 router.use('/config', require('./config.router'))
 router.use('/salary', require('./salary.router'))
+router.use('/oh', require('./officehours.router'))
 
 module.exports = router

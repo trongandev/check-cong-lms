@@ -1,4 +1,4 @@
-import { OfficeHour, SalaryDataResponse } from "@/types/type"
+import { OfficeHour } from "@/types/type"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
-export const getTotalSalary = (data: SalaryDataResponse, salary: number) => {
+export const getTotalSalary = (data: OfficeHour, salary: number) => {
     let acc = 0
     const status = data["Status"] as string
     const role = data["Class role/Office hour type"] as string

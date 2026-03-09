@@ -260,7 +260,7 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
             <div className="grid grid-cols-1 md:grid-cols-2 py-4 gap-2 md:gap-5 flex-wrap ">
                 <div className="bg-white border-purple-200 shadow-sm dark:bg-gray-700  rounded-md flex-1 p-5 border dark:border-white/10 text-purple-800 dark:text-purple-300">
                     <p className="text-sm">Tổng số</p>
-                    <h1 className="text-3xl text-right font-bold ">{table.getFilteredRowModel().rows.length}</h1>
+                    <h1 className="text-3xl text-right font-bold ">{table.getFilteredRowModel().rows.length.toLocaleString()}</h1>
                 </div>
 
                 <div className=" border-slate-200 shadow-sm   dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-slate-800 dark:text-slate-300">
@@ -386,7 +386,7 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
                     </Table>
                 </div>
                 <div className="flex items-center justify-end space-x-2 py-4">
-                    <div className="flex-1 text-sm text-muted-foreground">{table.getFilteredRowModel().rows.length} dòng đã được hiển thị</div>
+                    <div className="flex-1 text-sm text-muted-foreground">{table.getFilteredRowModel().rows.length.toLocaleString()} dòng đã được hiển thị</div>
                     <div className="flex items-center gap-2">
                         <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                             <ChevronLeft />

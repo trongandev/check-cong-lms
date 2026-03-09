@@ -1,3 +1,9 @@
+export interface OfficeHourResponse {
+    _id: string
+    dateTimeKey: string
+    data: OfficeHour[]
+}
+
 export interface OfficeHour {
     "Centre shortname": string
     Type: string
@@ -19,10 +25,16 @@ export interface OfficeHour {
     "Manager Note": string
     "Confirm Status (OH only)": string
     "Confirm Note (OH only)": string
+    _id: string
     salary: number
-    customRank: number
+    rank: string
 }
-
+export interface MetaPagination {
+    total: number
+    page: number
+    limit: number
+    last_page: number
+}
 export interface OfficeHourSelected {
     "Centre shortname": string
     Type: string
@@ -76,6 +88,9 @@ export interface SalaryResponse {
     _id: string
     username: string
     dateTimeKey: string
+    totalCheck: number
+    totalUncheck: number
+    totalTime: number
     data: SalaryDataResponse[]
     createdAt: string
     updatedAt: string
