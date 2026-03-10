@@ -1,38 +1,41 @@
 const mongoose = require('mongoose')
 
-const SalaryDataSchema = new mongoose.Schema({
-    'Centre shortname': {
-        type: String,
+const SalaryDataSchema = new mongoose.Schema(
+    {
+        'Centre shortname': {
+            type: String,
+        },
+        Type: {
+            type: String,
+        },
+        'Class name': {
+            type: String,
+        },
+        'Class role/Office hour type': {
+            type: String,
+        },
+        Status: {
+            type: String,
+        },
+        'Slot time': {
+            type: String,
+        },
+        'Slot duration': {
+            type: String,
+        },
+        'Student count': {
+            type: Number,
+        },
+        salary: {
+            type: String,
+        },
+        rank: {
+            type: String,
+            default: 'T3',
+        },
     },
-    Type: {
-        type: String,
-    },
-    'Class name': {
-        type: String,
-    },
-    'Class role/Office hour type': {
-        type: String,
-    },
-    Status: {
-        type: String,
-    },
-    'Slot time': {
-        type: String,
-    },
-    'Slot duration': {
-        type: String,
-    },
-    'Student count': {
-        type: Number,
-    },
-    salary: {
-        type: String,
-    },
-    rank: {
-        type: String,
-        default: 'T3',
-    },
-})
+    { _id: false },
+)
 const SalarySchema = new mongoose.Schema(
     {
         username: String,

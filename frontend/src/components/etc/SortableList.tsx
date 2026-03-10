@@ -2,13 +2,14 @@ import { useSortable } from "@dnd-kit/sortable"
 import { Button } from "../ui/button"
 import { Edit, GripVertical, Trash } from "lucide-react"
 import { CSS } from "@dnd-kit/utilities"
+import { LinkSheetRequest } from "@/types/type"
 interface Props {
     sheet: any
     index: number
-    handleEdit: (sheet: any) => void
-    setSelectedSheetId: (id: string) => void
+    handleEdit: (sheet: LinkSheetRequest) => void
+    setSelectedSheet: (sheet: LinkSheetRequest) => void
 }
-export default function SortableList({ sheet, index, handleEdit, setSelectedSheetId }: Props) {
+export default function SortableList({ sheet, index, handleEdit, setSelectedSheet }: Props) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging, isOver } = useSortable({
         id: sheet._id,
         data: sheet.index,
@@ -45,7 +46,7 @@ export default function SortableList({ sheet, index, handleEdit, setSelectedShee
                     <Button variant={"outline"} onClick={() => handleEdit(sheet)} className=" ">
                         <Edit size={20} />
                     </Button>
-                    <Button variant={"destructive"} className="ml-2 text-white" onClick={() => setSelectedSheetId(sheet._id)}>
+                    <Button variant={"destructive"} className="ml-2 text-white" onClick={() => setSelectedSheet(sheet)}>
                         <Trash size={20} />
                     </Button>
                 </div>

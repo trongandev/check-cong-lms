@@ -69,7 +69,7 @@ class OfficeHoursService {
                 const totalUncheck = getTotal.reduce((acc, item) => acc + (item.Status !== 'CHECKED' ? 1 : 0), 0)
 
                 const newSalary = new SalaryModel({
-                    ...findOfficeHours[0],
+                    data: findOfficeHours[0].data,
                     username: username,
                     dateTimeKey: currentConfig.month,
                     totalSalary: totalSalary,
@@ -85,6 +85,10 @@ class OfficeHoursService {
     }
 
     async create(dataLink, config) {
+        const findOH = await OfficeHoursModel.findOne({ dateTimeKey: dataLink.month })
+        if (findOH) {
+            throw new Error('Office hours for this month already exist')
+        }
         const splitLink = dataLink.link.split('/')
         splitLink[6] = config.paramEndLinkSheet
         const finalLink = splitLink.join('/')

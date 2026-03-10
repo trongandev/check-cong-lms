@@ -58,7 +58,7 @@ class SalaryService {
                 const totalUncheck = getTotal.reduce((acc, item) => acc + (item.Status !== 'CHECKED' ? 1 : 0), 0)
 
                 const newSalary = new SalaryModel({
-                    ...findOfficeHours[0],
+                    data: findOfficeHours[0].data,
                     username: finalUsername,
                     dateTimeKey: currentConfig.month,
                     totalSalary: totalSalary,

@@ -15,8 +15,10 @@ class ConfigService {
         const response = await axiosInstance.patch<APIResponse<LinkSheetRequest>>("/config", data)
         return response.data.data
     }
-    async deleteLinkSheet(_id: string) {
-        const response = await axiosInstance.delete<APIResponse<ConfigRequest>>("/config/" + _id)
+    async deleteLinkSheet(sheet: LinkSheetRequest) {
+        const response = await axiosInstance.delete<APIResponse<ConfigRequest>>("/config/" + sheet._id, {
+            data: sheet,
+        })
         return response.data.data
     }
 

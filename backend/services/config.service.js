@@ -1,4 +1,5 @@
 const { ConfigModel } = require('../models/config.model')
+const { OfficeHoursModel } = require('../models/officehours.model')
 const officehoursService = require('./officehours.service')
 
 class ConfigService {
@@ -50,11 +51,16 @@ class ConfigService {
 
     async deleteLinkSheet(req) {
         const { _id } = req.params
+        const { month } = req.body
         const config = await this.getConfigDefault()
         if (!config) {
             throw new Error('Default config not found')
         }
         config.linkSheet = config.linkSheet.filter((link) => link._id != _id)
+        const findOH = await OfficeHoursModel.findOne({ dateTimeKey: month })
+        if (findOH) {
+            await officehoursService.delete(findOH._id)
+        }
         await ConfigModel.updateOne({ version: 'default' }, { linkSheet: config.linkSheet })
         return config
     }

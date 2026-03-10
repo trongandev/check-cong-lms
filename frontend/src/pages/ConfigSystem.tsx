@@ -18,7 +18,7 @@ export default function ConfigSystem() {
     const [loading, setLoading] = useState(false)
     const [showModel, setShowModel] = useState<{ type: string; status: boolean }>({ type: "add", status: false }) // null or sheet object
     const [configData, setConfigData] = useState<ConfigRequest>()
-    const [selectedSheetId, setSelectedSheetId] = useState<string | null>(null)
+    const [selectedSheet, setSelectedSheet] = useState<LinkSheetRequest | null>(null)
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: {
@@ -79,10 +79,10 @@ export default function ConfigSystem() {
         }
     }
 
-    const handleDelete = async (_id: string) => {
+    const handleDelete = async (sheet: LinkSheetRequest) => {
         try {
             setLoading(true)
-            await configService.deleteLinkSheet(_id)
+            await configService.deleteLinkSheet(sheet)
             toast.success("Xóa cấu hình thành công")
             // Refresh config data
             const data = await configService.getConfigDefault()
@@ -156,7 +156,7 @@ export default function ConfigSystem() {
                                 {configData &&
                                     configData?.linkSheet.length > 0 &&
                                     configData?.linkSheet.map((sheet, index) => (
-                                        <SortableList key={sheet._id} index={index} sheet={sheet} handleEdit={handleEdit} setSelectedSheetId={setSelectedSheetId} />
+                                        <SortableList key={sheet._id} index={index} sheet={sheet} handleEdit={handleEdit} setSelectedSheet={setSelectedSheet} />
                                     ))}
                             </SortableContext>
                         </DndContext>
@@ -237,14 +237,14 @@ export default function ConfigSystem() {
                     </form>
                 </DialogContent>
             </Dialog>
-            <AlertDialog open={selectedSheetId !== null} onOpenChange={() => setSelectedSheetId(null)}>
+            <AlertDialog open={selectedSheet !== null} onOpenChange={() => setSelectedSheet(null)}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Bạn có chắc chắn muốn xóa không</AlertDialogTitle>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Hủy</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => handleDelete(selectedSheetId!)}>Xóa</AlertDialogAction>
+                        <AlertDialogAction onClick={() => handleDelete(selectedSheet!)}>Xóa</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

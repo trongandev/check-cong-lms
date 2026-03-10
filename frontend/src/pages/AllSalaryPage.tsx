@@ -46,7 +46,6 @@ export default function AllSalaryPage() {
                 salaryService.getAllSalary(),
                 configService.getConfigDefault(),
             ])
-            console.log(allSalary)
             setAllSalary(allSalary)
             setConfigData(configData.linkSheet)
             setSelectedConfig(data.dateTimeKey)
@@ -77,8 +76,8 @@ export default function AllSalaryPage() {
     useEffect(() => {
         if (!user) return
         const fetchAPI = async () => {
+            setLoading(true)
             const data = await officeHoursService.getOfficeHoursByUser({ username, date: selectedConfig })
-            console.log(data)
             const getTotal = data.data.map((item) => {
                 const total = getTotalSalary(item as any, salary)
                 return {
@@ -97,6 +96,7 @@ export default function AllSalaryPage() {
             })
 
             setTotalSalary(getTotal?.reduce((acc, item) => acc + (item.salary || 0), 0) || 0)
+            setLoading(false)
         }
         fetchAPI()
     }, [user, username, selectedConfig])
@@ -130,26 +130,32 @@ export default function AllSalaryPage() {
                 </TabsList>
                 <TabsContent value="all">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 text-gray-700 mb-10">
-                        {allSalary.map((item) => (
-                            <div className="border cursor-pointer border-gray-300 rounded-md p-3 md:p-5 hover:bg-gray-50 bg-gray-50/50 hover:border-gray-400 text-gray-800">
-                                <div className="flex items-center gap-2">
-                                    <Calendar size={16} className="text-gray-600" />
-                                    <p className="font-medium">{item.dateTimeKey}</p>
+                        {!loading &&
+                            allSalary.map((item) => (
+                                <div className="border cursor-pointer border-gray-300 rounded-md p-3 md:p-5 hover:bg-gray-50 bg-gray-50/50 hover:border-gray-400 text-gray-800">
+                                    <div className="flex items-center gap-2">
+                                        <Calendar size={16} className="text-gray-600" />
+                                        <p className="font-medium">{item.dateTimeKey}</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Clock size={16} className="text-gray-600" /> <p className="">{item.totalTime}h</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <BicepsFlexed size={16} className="text-gray-600" /> <p className="">{item.totalCheck + item.totalUncheck} công</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-red-700">
+                                        <Banknote size={16} className="" /> <p className="">{item.totalSalary.toLocaleString()}đ</p>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-yellow-700">
+                                        <Crown size={16} className="" /> <p className="">Rank: {item.rankSalary}</p>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <Clock size={16} className="text-gray-600" /> <p className="">{item.totalTime}h</p>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <BicepsFlexed size={16} className="text-gray-600" /> <p className="">{item.totalCheck + item.totalUncheck} công</p>
-                                </div>
-                                <div className="flex items-center gap-2 text-red-700">
-                                    <Banknote size={16} className="" /> <p className="">{item.totalSalary.toLocaleString()}đ</p>
-                                </div>
-                                <div className="flex items-center gap-2 text-yellow-700">
-                                    <Crown size={16} className="" /> <p className="">Rank: {item.rankSalary}</p>
-                                </div>
+                            ))}
+                        {loading && (
+                            <div className="col-span-full flex items-center justify-center h-64">
+                                <LoadingIcon />
                             </div>
-                        ))}
+                        )}
                     </div>
                 </TabsContent>
                 <TabsContent value="detail">

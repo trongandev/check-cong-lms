@@ -1,29 +1,32 @@
 const mongoose = require('mongoose')
 
-const DataSchema = new mongoose.Schema({
-    'Centre shortname': String,
-    Type: String,
-    'Class name': String,
-    Course: String,
-    'Course Line': String,
-    'Teacher name': String,
-    'Work email': String,
-    'Personal email': String,
-    Username: String,
-    'Class role/Office hour type': String,
-    Status: String,
-    'Effective duration': String,
-    'Slot time': String,
-    'Slot duration': String,
-    'Student count': String,
-    'Requested by': String,
-    Note: String,
-    'Manager Note': String,
-    'Confirm Status (OH only)': String,
-    'Confirm Note (OH only)': String,
-    salary: Number,
-    customRank: Number,
-})
+const DataSchema = new mongoose.Schema(
+    {
+        'Centre shortname': String,
+        Type: String,
+        'Class name': String,
+        Course: String,
+        'Course Line': String,
+        'Teacher name': String,
+        'Work email': String,
+        'Personal email': String,
+        Username: String,
+        'Class role/Office hour type': String,
+        Status: String,
+        'Effective duration': String,
+        'Slot time': String,
+        'Slot duration': String,
+        'Student count': String,
+        'Requested by': String,
+        Note: String,
+        'Manager Note': String,
+        'Confirm Status (OH only)': String,
+        'Confirm Note (OH only)': String,
+        salary: Number,
+        customRank: Number,
+    },
+    { _id: false },
+)
 
 // đánh index = username
 DataSchema.index({ Username: 1 })
