@@ -6,7 +6,7 @@ class ConfigService {
     async getConfigDefault() {
         const findConfig = await ConfigModel.findOne({ version: 'default' }).lean()
         if (findConfig) {
-            findConfig.linkSheet = findConfig.linkSheet.sort((a, b) => b.index - a.index)
+            findConfig.linkSheet = findConfig.linkSheet.sort((a, b) => a.index - b.index)
         }
         return findConfig
     }
@@ -42,7 +42,7 @@ class ConfigService {
         config.linkSheet.push({
             month: dataLink.month,
             link: dataLink.link,
-            index: config.linkSheet.length,
+            index: 0,
         })
         await ConfigModel.updateOne({ version: 'default' }, { linkSheet: config.linkSheet })
         await officehoursService.create(dataLink, config)
