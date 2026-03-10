@@ -155,7 +155,9 @@ export default function ConfigSystem() {
                             <SortableContext items={configData.linkSheet.map((sheet) => sheet._id)} strategy={rectSortingStrategy}>
                                 {configData &&
                                     configData?.linkSheet.length > 0 &&
-                                    configData?.linkSheet.map((sheet) => <SortableList key={sheet._id} sheet={sheet} handleEdit={handleEdit} setSelectedSheetId={setSelectedSheetId} />)}
+                                    configData?.linkSheet.map((sheet, index) => (
+                                        <SortableList key={sheet._id} index={index} sheet={sheet} handleEdit={handleEdit} setSelectedSheetId={setSelectedSheetId} />
+                                    ))}
                             </SortableContext>
                         </DndContext>
                     )}

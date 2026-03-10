@@ -30,6 +30,7 @@ const SalaryDataSchema = new mongoose.Schema({
     },
     rank: {
         type: String,
+        default: 'T3',
     },
 })
 const SalarySchema = new mongoose.Schema(
@@ -39,6 +40,16 @@ const SalarySchema = new mongoose.Schema(
         totalCheck: Number,
         totalUncheck: Number,
         totalTime: Number,
+        totalCong: Number,
+        totalSalary: Number,
+        rankSalary: {
+            type: String,
+            default: 'T3',
+        },
+        salary: {
+            type: Number,
+            default: 120,
+        },
         data: [SalaryDataSchema],
     },
     { timestamps: true },

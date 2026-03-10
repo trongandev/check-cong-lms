@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import LoadingIcon from "@/components/ui/loading-icon"
 import { useGlobalContext } from "@/contexts/globalContext"
-import officeHoursService from "@/services/officeHoursService"
+import salaryService from "@/services/salaryService"
 
 export default function HomePage() {
     const [filterData, setFilterData] = useState<OfficeHour[]>([])
@@ -30,7 +30,7 @@ export default function HomePage() {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const data = await officeHoursService.getOfficeHoursByUser({})
+            const data = await salaryService.getSalaryByUser({})
             setGlobal("dateTimeKey", data.dateTimeKey)
             const getTotal = data.data.map((item) => {
                 const total = getTotalSalary(item, salary)

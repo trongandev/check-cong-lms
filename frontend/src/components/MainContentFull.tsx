@@ -162,7 +162,14 @@ const columns: ColumnDef<OfficeHour>[] = [
     },
 ]
 
-export default function MainContentFull({ data, isLoading, error }: { data: OfficeHour[]; isLoading: boolean; error: string | null }) {
+interface Props {
+    data: OfficeHour[]
+    isLoading: boolean
+    error: string | null
+    dateTimeKey: string | undefined
+}
+
+export default function MainContentFull({ data, isLoading, error, dateTimeKey }: Props) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -257,12 +264,15 @@ export default function MainContentFull({ data, isLoading, error }: { data: Offi
 
     return (
         <div className="h-full flex-1 px-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 py-4 gap-2 md:gap-5 flex-wrap ">
-                <div className="bg-white border-purple-200 shadow-sm dark:bg-gray-700  rounded-md flex-1 p-5 border dark:border-white/10 text-purple-800 dark:text-purple-300">
-                    <p className="text-sm">Tổng số</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 py-4 gap-2 md:gap-5 flex-wrap ">
+                <div className="bg-white border-purple-200 shadow-sm dark:bg-gray-700  rounded-md flex-1 p-5 border dark:border-white/10 ">
+                    <p className="text-sm">Tổng số công</p>
                     <h1 className="text-3xl text-right font-bold ">{table.getFilteredRowModel().rows.length.toLocaleString()}</h1>
                 </div>
-
+                <div className="bg-white border-purple-200 shadow-sm dark:bg-gray-700  rounded-md flex-1 p-5 border dark:border-white/10 ">
+                    <p className="text-sm">Công tháng</p>
+                    <h1 className="text-3xl text-right font-bold ">{dateTimeKey}</h1>
+                </div>
                 <div className=" border-slate-200 shadow-sm   dark:bg-gray-700 rounded-md flex-1 p-5 border dark:border-white/10 text-slate-800 dark:text-slate-300">
                     <div className="flex items-center justify-between gap-2">
                         <p className="text-sm">Tổng tiền lương</p>

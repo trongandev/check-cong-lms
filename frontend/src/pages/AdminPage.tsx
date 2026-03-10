@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 
 export default function AdminPage() {
     const [data, setData] = useState<OfficeHour[]>([])
+    const [dateTimeKey, setDateTimeKey] = useState()
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
 
@@ -15,6 +16,7 @@ export default function AdminPage() {
             try {
                 const req = await officeHoursService.getAll({})
                 setData(req.data)
+                setDateTimeKey(req.dateTimeKey)
             } catch (err: any) {
                 setError(err)
             } finally {
@@ -24,5 +26,5 @@ export default function AdminPage() {
         fetchAPI()
     }, [])
 
-    return <MainContentFull data={data} isLoading={isLoading} error={error} />
+    return <MainContentFull data={data} isLoading={isLoading} error={error} dateTimeKey={dateTimeKey} />
 }

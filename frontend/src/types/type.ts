@@ -96,3 +96,32 @@ export interface SalaryResponse {
     createdAt: string
     updatedAt: string
 }
+
+export interface SalaryAllResponse {
+    _id: string
+    username: string
+    dateTimeKey: string
+    totalCheck: number
+    totalUncheck: number
+    totalTime: number
+    totalCong: number
+    totalSalary: number
+    rankSalary: string
+    salary: number
+    data: DataSalaryAll[]
+    createdAt: string
+    updatedAt: string
+    __v: number
+}
+
+export interface DataSalaryAll {
+    "Centre shortname": string
+    Type: string
+    "Class name": string
+    "Class role/Office hour type": string
+    Status: string
+    "Slot time": string
+    "Slot duration": string
+    "Student count": number
+    _id: string
+}

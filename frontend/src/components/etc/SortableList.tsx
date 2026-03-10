@@ -4,10 +4,11 @@ import { Edit, GripVertical, Trash } from "lucide-react"
 import { CSS } from "@dnd-kit/utilities"
 interface Props {
     sheet: any
+    index: number
     handleEdit: (sheet: any) => void
     setSelectedSheetId: (id: string) => void
 }
-export default function SortableList({ sheet, handleEdit, setSelectedSheetId }: Props) {
+export default function SortableList({ sheet, index, handleEdit, setSelectedSheetId }: Props) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging, isOver } = useSortable({
         id: sheet._id,
         data: sheet.index,
@@ -23,11 +24,12 @@ export default function SortableList({ sheet, handleEdit, setSelectedSheetId }: 
 
     return (
         <div
-            className={`border p-5 rounded-lg bg-gray-50/20 relative group flex justify-between items-center ${
-                isDragging ? "border-primary shadow-2xl" : isOver ? "cursor-grabbing border-primary/50 border-dashed" : "cursor-grab border-gray-300/50 dark:border-white/10"
+            className={`border p-5 rounded-lg bg-gray-50/20 relative group flex gap-5 justify-between items-center select-none ${
+                isDragging ? "border-primary shadow-2xl " : isOver ? "cursor-grabbing border-primary/50 border-dashed" : "cursor-grab border-gray-300/50 dark:border-white/10"
             }`}
             style={style}
         >
+            <div className="w-12 h-12 flex items-center justify-center bg-gray-100 rounded-lg font-bold text-md border border-gray-200">{index + 1}</div>
             <div className="flex-1">
                 <p>
                     Tháng: <span className="font-bold">{sheet.month}</span>

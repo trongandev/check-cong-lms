@@ -6,8 +6,8 @@ class OfficeHoursService {
         const response = await axiosInstance.get<APIResponse<any>>(`/oh?date=${dateTimeKey || ""}`)
         return response.data.data
     }
-    async getOfficeHoursByUser({ date }: { date?: string }) {
-        const response = await axiosInstance.get<APIResponse<OfficeHourResponse>>(`/oh/username${date ? `?date=${date}` : ""}`)
+    async getOfficeHoursByUser({ username, date }: { username?: string; date?: string }) {
+        const response = await axiosInstance.get<APIResponse<OfficeHourResponse>>(`/oh/username?username=${username || ""}&date=${date || ""}`)
         return response.data.data
     }
 }
