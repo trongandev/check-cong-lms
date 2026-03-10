@@ -32,7 +32,7 @@ class OfficeHoursService {
         if (date) {
             currentConfig = config.linkSheet.find((item) => item.month === date)
         } else {
-            currentConfig = config.linkSheet.find((item) => item.index === 0)
+            currentConfig = config.linkSheet.find((item) => item.index === config.linkSheet.length - 1)
         }
         const findOfficeHours = await OfficeHoursModel.aggregate([
             { $match: { dateTimeKey: currentConfig.month } },
