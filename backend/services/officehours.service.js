@@ -14,7 +14,7 @@ class OfficeHoursService {
             matchDate.dateTimeKey = date
         } else {
             const config = await ConfigModel.findOne({ version: 'default' }).lean()
-            matchDate.dateTimeKey = config.linkSheet[config.linkSheet.length - 1].month
+            matchDate.dateTimeKey = config.linkSheet.find((item) => item.index === 0).month
         }
 
         const result = await OfficeHoursModel.find(matchDate).lean()
@@ -32,7 +32,7 @@ class OfficeHoursService {
         if (date) {
             currentConfig = config.linkSheet.find((item) => item.month === date)
         } else {
-            currentConfig = config.linkSheet.find((item) => item.index === config.linkSheet.length - 1)
+            currentConfig = config.linkSheet.find((item) => item.index === 0)
         }
         const findOfficeHours = await OfficeHoursModel.aggregate([
             { $match: { dateTimeKey: currentConfig.month } },
