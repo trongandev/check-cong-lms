@@ -9,6 +9,7 @@ const router = express.Router()
 router.get('', authenticateToken, configController.getConfigDefault)
 router.post('', authenticateToken, configController.createConfigDefault)
 router.patch('', authenticateToken, configController.updateLinkSheet)
+router.patch('/reorder', authenticateToken, configController.reorderConfig)
 router.delete('/:_id', authenticateToken, configController.deleteLinkSheet)
 
 module.exports = router

@@ -68,6 +68,7 @@ export interface LinkSheetRequest {
     _id: string
     month: string
     link: string
+    index: number
 }
 
 export interface SalaryDataResponse {

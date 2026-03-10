@@ -4,19 +4,28 @@ import { Label } from "@/components/ui/label"
 import configService from "@/services/configService"
 import { ConfigRequest, LinkSheetRequest } from "@/types/type"
 import { useFormik } from "formik"
-import { Edit, Send, Trash } from "lucide-react"
+import { Send } from "lucide-react"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import * as Yup from "yup"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { Link } from "react-router-dom"
+import SortableList from "@/components/etc/SortableList"
+import { closestCenter, DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core"
+import { arrayMove, rectSortingStrategy, SortableContext } from "@dnd-kit/sortable"
 export default function ConfigSystem() {
     const [loading, setLoading] = useState(false)
     const [showModel, setShowModel] = useState<{ type: string; status: boolean }>({ type: "add", status: false }) // null or sheet object
     const [configData, setConfigData] = useState<ConfigRequest>()
     const [selectedSheetId, setSelectedSheetId] = useState<string | null>(null)
-
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 8,
+            },
+        }),
+    )
     useEffect(() => {
         const fetchConfig = async () => {
             try {
@@ -37,6 +46,7 @@ export default function ConfigSystem() {
             _id: "",
             month: "",
             link: "",
+            index: 0,
         },
         validationSchema: Yup.object({
             month: Yup.string().required("Vui lòng nhập tháng, định dạng: MM-YYYY (VD: 12-2025)"),
@@ -84,6 +94,39 @@ export default function ConfigSystem() {
             setLoading(false)
         }
     }
+    const handleEdit = (sheet: any) => {
+        setShowModel({ type: "edit", status: true })
+        formik.setValues({
+            _id: sheet._id,
+            month: sheet.month,
+            link: sheet.link,
+            index: sheet.index,
+        })
+    }
+
+    const handleDragEnd = async (event: DragEndEvent) => {
+        if (!configData) return
+        const { active, over } = event
+        if (!over) return
+        if (active.id !== over?.id) {
+            // 1. Tìm vị trí cũ và mới của folder
+            const oldIndex = configData.linkSheet.findIndex((sheet) => sheet._id === active.id)
+            const newIndex = configData.linkSheet.findIndex((sheet) => sheet._id === over.id)
+
+            if (oldIndex === -1 || newIndex === -1) return
+
+            // 2. Cập nhật UI ngay lập tức (Optimistic UI)
+            const newFolders = arrayMove(configData.linkSheet, oldIndex, newIndex)
+            setConfigData({ ...configData, linkSheet: newFolders })
+
+            // 3. Chuẩn bị data gửi lên Backend
+            const configOrder = newFolders.map((folder, index) => ({
+                id: folder._id,
+                index: index,
+            }))
+            await configService.reorderConfig(configOrder)
+        }
+    }
 
     return (
         <div className="max-w-7xl mx-auto py-5 px-2 md:px-0 min-h-screen ">
@@ -107,43 +150,15 @@ export default function ConfigSystem() {
             <div className="mt-10">
                 <h2 className="text-xl font-medium mb-5">Cấu hình sheet hiện tại:</h2>
                 <div className="space-y-3">
-                    {configData &&
-                        configData?.linkSheet.length > 0 &&
-                        configData?.linkSheet.map((sheet) => (
-                            <div key={sheet.month} className="border p-4 rounded-lg bg-gray-50/20 relative group">
-                                <div className="w-full">
-                                    <p>
-                                        <span className="font-medium">Tháng:</span> {sheet.month}
-                                    </p>
-
-                                    <p>
-                                        <span className="font-medium">Liên kết:</span>{" "}
-                                        <a href={sheet.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline line-clamp-1 ">
-                                            {sheet.link}
-                                        </a>
-                                    </p>
-                                </div>
-                                <div className="mt-3">
-                                    <Button
-                                        variant={"outline"}
-                                        onClick={() => {
-                                            setShowModel({ type: "edit", status: true })
-                                            formik.setValues({
-                                                _id: sheet._id,
-                                                month: sheet.month,
-                                                link: sheet.link,
-                                            })
-                                        }}
-                                        className=" "
-                                    >
-                                        <Edit size={20} />
-                                    </Button>
-                                    <Button variant={"destructive"} className="ml-2 text-white" onClick={() => setSelectedSheetId(sheet._id)}>
-                                        <Trash size={20} />
-                                    </Button>
-                                </div>
-                            </div>
-                        ))}
+                    {configData && (
+                        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                            <SortableContext items={configData.linkSheet.map((sheet) => sheet._id)} strategy={rectSortingStrategy}>
+                                {configData &&
+                                    configData?.linkSheet.length > 0 &&
+                                    configData?.linkSheet.map((sheet) => <SortableList key={sheet._id} sheet={sheet} handleEdit={handleEdit} setSelectedSheetId={setSelectedSheetId} />)}
+                            </SortableContext>
+                        </DndContext>
+                    )}
                     {!configData && <p className="text-gray-700">Chưa có cấu hình sheet nào. Vui lòng thêm mới.</p>}
                 </div>
             </div>
@@ -180,12 +195,12 @@ export default function ConfigSystem() {
                     <form onSubmit={formik.handleSubmit} className="space-y-5 bg-gray-50/20 border  p-5 rounded-lg mt-5">
                         <div className="space-y-2">
                             <Label htmlFor="month" className="block text-sm font-medium text-gray-700">
-                                Nhập tháng
+                                Nhập tháng (MM/YYYY)
                             </Label>
                             <Input
                                 type="text"
                                 id="month"
-                                placeholder="Nhập tháng: (VD: 12-2025, 01-2026)"
+                                placeholder="Nhập tháng: (VD: 12/2025, 01/2026)"
                                 className="h-10 md:h-12"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}

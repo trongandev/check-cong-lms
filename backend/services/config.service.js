@@ -4,6 +4,9 @@ const officehoursService = require('./officehours.service')
 class ConfigService {
     async getConfigDefault() {
         const findConfig = await ConfigModel.findOne({ version: 'default' }).lean()
+        if (findConfig) {
+            findConfig.linkSheet = findConfig.linkSheet.sort((a, b) => a.index - b.index)
+        }
         return findConfig
     }
 
@@ -35,7 +38,11 @@ class ConfigService {
             await ConfigModel.updateOne({ version: 'default' }, { linkSheet: config.linkSheet })
             return config
         }
-        config.linkSheet.push(dataLink)
+        config.linkSheet.push({
+            month: dataLink.month,
+            link: dataLink.link,
+            index: config.linkSheet.length,
+        })
         await ConfigModel.updateOne({ version: 'default' }, { linkSheet: config.linkSheet })
         await officehoursService.create(dataLink, config)
         return config
@@ -50,6 +57,18 @@ class ConfigService {
         config.linkSheet = config.linkSheet.filter((link) => link._id != _id)
         await ConfigModel.updateOne({ version: 'default' }, { linkSheet: config.linkSheet })
         return config
+    }
+
+    async reorderConfig(req) {
+        const { configOrder } = req.body //   Expecting: [{id: 'f1', index: 0}, {id: 'f2', index: 1}]
+
+        const operations = configOrder.map((item) => ({
+            updateOne: {
+                filter: { version: 'default', 'linkSheet._id': item.id },
+                update: { $set: { 'linkSheet.$.index': item.index } },
+            },
+        }))
+        await ConfigModel.bulkWrite(operations)
     }
 }
 

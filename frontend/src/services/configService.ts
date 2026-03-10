@@ -19,6 +19,11 @@ class ConfigService {
         const response = await axiosInstance.delete<APIResponse<ConfigRequest>>("/config/" + _id)
         return response.data.data
     }
+
+    async reorderConfig(configOrder: { id: string; index: number }[]) {
+        const response = await axiosInstance.patch<APIResponse<ConfigRequest>>("/config/reorder", { configOrder })
+        return response.data.data
+    }
 }
 
 export default new ConfigService()

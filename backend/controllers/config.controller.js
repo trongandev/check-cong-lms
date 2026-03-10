@@ -25,6 +25,11 @@ class ConfigController {
         const result = await configService.deleteLinkSheet(req)
         return SuccessResponse.ok(res, 'Xóa link sheet thành công', result)
     })
+
+    reorderConfig = catchAsync(async (req, res, next) => {
+        const result = await configService.reorderConfig(req)
+        return SuccessResponse.ok(res, 'Sắp xếp lại cấu hình thành công', result)
+    })
 }
 
 module.exports = new ConfigController()

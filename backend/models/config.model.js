@@ -4,8 +4,9 @@ const LinkSheetSchema = new mongoose.Schema(
     {
         month: String,
         link: String,
+        index: Number, // vị trí
     },
-    { timestamps: true }
+    { timestamps: true },
 )
 
 const ConfigSchema = new mongoose.Schema(
@@ -15,7 +16,7 @@ const ConfigSchema = new mongoose.Schema(
         posLinkSheetToSplit: Number,
         paramEndLinkSheet: String,
     },
-    { timestamps: true }
+    { timestamps: true },
 )
 
 module.exports = { ConfigModel: mongoose.model('ConfigModel', ConfigSchema) }
